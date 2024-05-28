@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include <QDebug>
+#include <QTimer>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -11,11 +12,11 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
     ui->graphicsView->setScene(scene);
 
-    images.append(QImage("C:/Users/juana/Downloads/_4d4dba4c-a651-4804-ae37-8014e6c73718.jpg"));
-    images.append(QImage("C:/Users/juana/Downloads/barco2.jpg"));
+    images.append(QImage(":/inicio/Inicio.jpg"));
+    images.append(QImage(":/escenarios/barco2.jpg"));
 
-    imageFileNames.append("C:/Users/juana/Downloads/_4d4dba4c-a651-4804-ae37-8014e6c73718.jpg");
-    imageFileNames.append("C:/Users/juana/Downloads/barco2.jpg");
+    imageFileNames.append(":/Inicio.jpg");
+    imageFileNames.append(":/barco2.jpg");
 
     loadScene(currentSceneIndex);
 
@@ -56,4 +57,38 @@ void MainWindow::on_pushButton_clicked()
     qDebug() << "Button clicked, new scene index:" << currentSceneIndex;
 
     loadScene(currentSceneIndex);
+}
+
+
+MainWindow::MainWindow(QWidget *parent) :
+    QMainWindow(parent),
+    ui(new Ui::MainWindow),
+    moving(false)
+{
+    ui->setupUi(this);
+
+    personaje = new Personaje(this);
+    personaje->setPosicion(100, 100); // Posición inicial del personaje
+
+    animTimer = new QTimer(this);
+    connect(animTimer, &QTimer::timeout, [this](){
+        if (moving) {
+            personaje->actualizarAnimacion();
+        }
+    });
+    animTimer->start(100); // Actualizar cada 100 ms
+}
+
+MainWindow::~MainWindow() {
+    delete ui;
+    delete personaje;
+}
+
+void MainWindow::keyPressEvent(QKeyEvent *event) {
+    moving = true;
+    personaje->mover(event);
+}
+
+void MainWindow::keyReleaseEvent(QKeyEvent *event) {
+    moving = false;
 }

@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/">
+        <file>Viking1.png</file>
+        <file>Viking1walk.png</file>
+    </qresource>
+</RCC>

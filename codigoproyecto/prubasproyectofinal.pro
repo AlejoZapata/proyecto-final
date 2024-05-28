@@ -1,4 +1,5 @@
-QT       += core gui
+QT       += core gui \
+    quick
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -10,10 +11,14 @@ CONFIG += c++17
 
 SOURCES += \
     main.cpp \
-    mainwindow.cpp
+    mainwindow.cpp \
+    personaje.cpp \
+    sprites.cpp
 
 HEADERS += \
-    mainwindow.h
+    mainwindow.h \
+    personaje.h \
+    sprites.h
 
 FORMS += \
     mainwindow.ui
@@ -22,3 +27,9 @@ FORMS += \
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+RESOURCES += \
+    imagenes.qrc \
+    personaje.qrc
+
+DISTFILES +=

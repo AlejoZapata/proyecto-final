@@ -1,0 +1,9 @@
+<RCC>
+    <qresource prefix="/inicio">
+        <file>Inicio.jpg</file>
+    </qresource>
+    <qresource prefix="/escenarios">
+        <file>barco2.jpg</file>
+    </qresource>
+    <qresource prefix="/Animaciones"/>
+</RCC>

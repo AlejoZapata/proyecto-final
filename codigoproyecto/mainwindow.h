@@ -1,6 +1,6 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
-
+#include <QKeyEvent>
 #include <QGraphicsScene>
 #include <QMainWindow>
 #include <QPushButton>
