@@ -1,16 +1,14 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
-#include <QKeyEvent>
-#include <QGraphicsScene>
+
 #include <QMainWindow>
-#include <QPushButton>
-#include <QList>
-#include <QImage>
+#include <QGraphicsScene>
+#include <QGraphicsView>
+#include <QKeyEvent>
+#include "personaje.h"
 
 QT_BEGIN_NAMESPACE
-namespace Ui {
-class MainWindow;
-}
+namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
 
 class MainWindow : public QMainWindow
@@ -20,6 +18,9 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
+
+protected:
+    bool eventFilter(QObject *obj, QEvent *event) override;
 
 private slots:
     void on_pushButton_clicked();
@@ -31,6 +32,7 @@ private:
     QList<QImage> images;
     int currentSceneIndex;
     QList<QString> imageFileNames;
+    Personaje *personaje;
 };
 
 #endif // MAINWINDOW_H

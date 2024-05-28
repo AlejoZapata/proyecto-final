@@ -1,32 +1,34 @@
 #ifndef PERSONAJE_H
 #define PERSONAJE_H
 
-#include <QWidget>
-#include <QLabel>
+#include <QObject>
+#include <QGraphicsPixmapItem>
 #include <QKeyEvent>
 #include <QPixmap>
-#include <QTimer>
+#include <QDebug>
 
-class Personaje : public QWidget {
+class Personaje : public QObject, public QGraphicsPixmapItem
+{
     Q_OBJECT
 
 public:
-    explicit Personaje(QWidget *parent = nullptr);
+    Personaje(QGraphicsItem *parent = nullptr);
     ~Personaje();
-
-    void setPosicion(int x, int y);
     void mover(QKeyEvent *event);
-    void actualizarAnimacion();
+
+protected:
+    void keyPressEvent(QKeyEvent *event) override;
 
 private:
-    QLabel *spriteLabel;
     QPixmap *spriteSheet;
     int spriteX;
     int spriteY;
     int frameWidth;
     int frameHeight;
     int currentFrame;
-    void actualizarPosicion();
+
+public slots:
+    void actualizarAnimacion();
 };
 
 #endif // PERSONAJE_H

@@ -7,7 +7,8 @@ MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow),
     scene(new QGraphicsScene),
-    currentSceneIndex(0)
+    currentSceneIndex(0),
+    personaje(new Personaje) // Inicializar personaje
 {
     ui->setupUi(this);
     ui->graphicsView->setScene(scene);
@@ -21,11 +22,16 @@ MainWindow::MainWindow(QWidget *parent) :
     loadScene(currentSceneIndex);
 
     connect(ui->pushButton, &QPushButton::clicked, this, &MainWindow::on_pushButton_clicked);
+
+    // Instalar filtro de eventos
+    ui->graphicsView->installEventFilter(this);
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
+    delete personaje;
+    delete scene;
 }
 
 void MainWindow::loadScene(int index)
@@ -45,8 +51,15 @@ void MainWindow::loadScene(int index)
 
         qDebug() << "Loaded scene index:" << index;
 
-
         ui->pushButton->setVisible(index == 0);
+
+        // Añadir de nuevo el personaje a la escena si el índice es 1
+        if (index == 1) {
+            if (!scene->items().contains(personaje)) {
+                personaje->setPos(scene->sceneRect().center()); // Coloca el personaje en el centro de la escena
+                scene->addItem(personaje);
+            }
+        }
     }
 }
 
@@ -59,36 +72,13 @@ void MainWindow::on_pushButton_clicked()
     loadScene(currentSceneIndex);
 }
 
-
-MainWindow::MainWindow(QWidget *parent) :
-    QMainWindow(parent),
-    ui(new Ui::MainWindow),
-    moving(false)
+bool MainWindow::eventFilter(QObject *obj, QEvent *event)
 {
-    ui->setupUi(this);
-
-    personaje = new Personaje(this);
-    personaje->setPosicion(100, 100); // Posición inicial del personaje
-
-    animTimer = new QTimer(this);
-    connect(animTimer, &QTimer::timeout, [this](){
-        if (moving) {
-            personaje->actualizarAnimacion();
-        }
-    });
-    animTimer->start(100); // Actualizar cada 100 ms
-}
-
-MainWindow::~MainWindow() {
-    delete ui;
-    delete personaje;
-}
-
-void MainWindow::keyPressEvent(QKeyEvent *event) {
-    moving = true;
-    personaje->mover(event);
-}
-
-void MainWindow::keyReleaseEvent(QKeyEvent *event) {
-    moving = false;
+    if (event->type() == QEvent::KeyPress)
+    {
+        QKeyEvent *keyEvent = static_cast<QKeyEvent *>(event);
+        personaje->mover(keyEvent);
+        return true;
+    }
+    return QMainWindow::eventFilter(obj, event);
 }
