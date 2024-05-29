@@ -13,8 +13,8 @@ public slots:
     void move();
 private:
     float vx, vy;
-    float t;
+    float t; // Agregamos el miembro para el tiempo
+    float g; // Aceleración debido a la gravedad
 };
 
 #endif // ANTORCHA_H
-

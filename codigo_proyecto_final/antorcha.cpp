@@ -1,31 +1,40 @@
 #include "antorcha.h"
 #include <QTimer>
 #include <QGraphicsScene>
+#include <cmath>
 
-Antorcha::Antorcha(QGraphicsItem *parent) : QObject(), QGraphicsPixmapItem(parent), vx(0), vy(0), t(0) {
-    setPixmap(QPixmap("C:/Users/juana/Downloads/antorcha.png"));
+Antorcha::Antorcha(QGraphicsItem *parent) : QObject(), QGraphicsPixmapItem(parent), vx(60), vy(0), t(0), g(9.8) {
+    setPixmap(QPixmap("C:/Users/juana/Downloads/pngegg.png").scaled(100, 100));
 
     QTimer *timer = new QTimer();
     connect(timer, SIGNAL(timeout()), this, SLOT(move()));
     timer->start(50);
 }
 
-void Antorcha::setInitialVelocity(float vx, float vy) {
-    this->vx = vx;
-    this->vy = vy;
+void Antorcha::setInitialVelocity(float velIn, float theta) {
+
+    theta = theta * M_PI / 180.0;
+
+
+    vx = velIn * cos(theta);
+    vy = -velIn * sin(theta);
 }
 
 void Antorcha::move() {
-    t += 0.05;  // Incrementar el tiempo
+    const float dt = 0.1;
 
-    // Movimiento parabólico
-    float x = vx * t;
-    float y = vy * t - 0.5 * 9.8 * t * t;
-    setPos(pos().x() + x, pos().y() - y);
+    float posX = x() + (vx * dt);
+    float posY = y() + (vy * dt) + (0.5 * g * dt * dt);
 
-    // Eliminar antorcha si sale de la escena
-    if (pos().y() > 600 || pos().x() > 800) {
-        scene()->removeItem(this);
-        delete this;
+    vy += g * dt;
+
+    setPos(posX, posY);
+
+    if (posY >= scene()->height()) {
+        QTimer *timer = qobject_cast<QTimer*>(sender());
+        if (timer) {
+            timer->stop();
+            deleteLater();
+        }
     }
 }

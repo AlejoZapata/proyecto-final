@@ -10,7 +10,11 @@ Personaje::Personaje(QGraphicsItem *parent) : QObject(), QGraphicsPixmapItem(par
 
 void Personaje::keyPressEvent(QKeyEvent *event) {
     if (event->key() == Qt::Key_Q) {
-        shootFlecha();
+
+        emit shootFlecha();
+    } else if (event->key() == Qt::Key_W) {
+
+        emit shootAntorcha();
     }
 }
 
@@ -23,5 +27,6 @@ void Personaje::shootFlecha() {
 
 void Personaje::shootAntorcha() {
     Antorcha *antorcha = new Antorcha();
+    antorcha->setPos(150,300);
     scene()->addItem(antorcha);
 }

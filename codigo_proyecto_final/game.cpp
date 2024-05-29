@@ -10,7 +10,7 @@
 void Game::setLevelBackground(const QString &imagePath) {
     QPixmap originalImage(imagePath);
 
-    // Escalar la imagen para que se ajuste al tamaño de la ventana del juego
+
     levelBackground = originalImage.scaled(800, 600, Qt::KeepAspectRatioByExpanding, Qt::SmoothTransformation);
 
     setBackgroundBrush(levelBackground);
@@ -27,15 +27,15 @@ Game::Game(QWidget *parent) : QGraphicsView(parent), currentLevel(1), enemiesSpa
     scene->addItem(player);
     player->setPos(-150, 100);  // Posición inicial del personaje
 
-    // Configurar la vista
+
     setFixedSize(800, 600);
     scene->setSceneRect(0, 0, 800, 600);
 
-    // Permitir que la vista procese eventos de teclado
+
     setFocusPolicy(Qt::StrongFocus);
 
-    // Iniciar el primer nivel
-    startLevel1();
+    // Iniciar nivel
+    startLevel3();
 }
 
 void Game::keyPressEvent(QKeyEvent *event) {
@@ -53,9 +53,17 @@ void Game::keyPressEvent(QKeyEvent *event) {
         }
     } else if (event->key() == Qt::Key_T) {
         player->shootFlecha();
+    } else if (event->key() == Qt::Key_U) {
+        player->shootAntorcha();
     }
 }
+void Game::handleFlechaShoot() {
+    player->shootFlecha();
+}
 
+void Game::handleAntorchaShoot() {
+    player->shootAntorcha();
+}
 void Game::startLevel1() {
     currentLevel = 1;
     setLevelBackground("C:/Users/juana/Downloads/barco2.jpg");

@@ -6,8 +6,8 @@
 
 Flecha::Flecha(QGraphicsItem *parent) : QObject(), QGraphicsPixmapItem(parent) {
     QPixmap pixmap("C:/Users/juana/Downloads/pngimg.com - arrow_bow_PNG37.png");
-    // Cambiar el tamaño de la flecha
-    QPixmap scaledPixmap = pixmap.scaled(200, 200, Qt::KeepAspectRatio, Qt::SmoothTransformation); // Ajusta el tamaño aquí
+
+    QPixmap scaledPixmap = pixmap.scaled(200, 200, Qt::KeepAspectRatio, Qt::SmoothTransformation);
     setPixmap(scaledPixmap);
 
     QTimer *timer = new QTimer();
@@ -16,10 +16,10 @@ Flecha::Flecha(QGraphicsItem *parent) : QObject(), QGraphicsPixmapItem(parent) {
 }
 
 void Flecha::move() {
-    // Mover la flecha hacia la derecha
+
     setPos(x() + 10, y());
 
-    // Eliminar flecha si sale de la escena
+
     if (pos().x() > scene()->width()) {
         scene()->removeItem(this);
         delete this;

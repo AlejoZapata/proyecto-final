@@ -6,7 +6,6 @@
 Enemigo::Enemigo(QGraphicsItem *parent) : QObject(), QGraphicsPixmapItem(parent) {
     setPixmap(QPixmap("C:/Users/juana/Downloads/Vikings/Viking3/Alert1H/4.png"));
 
-    // Fijar la posición de inicio un poco más abajo y desde una posición específica
     setPos(500, 100); // x = 100, y = 50 (ajusta según sea necesario)
 
     vx = -3;
