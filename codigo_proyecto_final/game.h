@@ -20,6 +20,7 @@ private:
     Personaje *player;
     int currentLevel;
     QPixmap levelBackground;
+    int enemiesSpawned;
 };
 
 #endif // GAME_H

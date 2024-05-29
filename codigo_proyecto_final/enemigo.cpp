@@ -6,8 +6,8 @@
 Enemigo::Enemigo(QGraphicsItem *parent) : QObject(), QGraphicsPixmapItem(parent) {
     setPixmap(QPixmap("C:/Users/juana/Downloads/Vikings/Viking3/Alert1H/4.png"));
 
-    int randomX = rand() % 700;
-    setPos(randomX, 0);
+    // Fijar la posición de inicio un poco más abajo y desde una posición específica
+    setPos(500, 100); // x = 100, y = 50 (ajusta según sea necesario)
 
     vx = -3;
 
@@ -19,14 +19,11 @@ Enemigo::Enemigo(QGraphicsItem *parent) : QObject(), QGraphicsPixmapItem(parent)
 void Enemigo::move() {
     const int sueloPosY = 500;
 
-
-    setPos(x() + vx, y() );
+    setPos(x() + vx, y());
 
     if (pos().y() >= sueloPosY) {
-
         return;
     }
-
 
     // Eliminar el enemigo si sale de la escena
     if (pos().y() > 600 || pos().x() < -pixmap().width()) {

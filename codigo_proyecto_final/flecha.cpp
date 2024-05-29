@@ -5,7 +5,10 @@
 #include "enemigo.h"
 
 Flecha::Flecha(QGraphicsItem *parent) : QObject(), QGraphicsPixmapItem(parent) {
-    setPixmap(QPixmap("C:/Users/juana/Downloads/xd.png"));
+    QPixmap pixmap("C:/Users/juana/Downloads/pngimg.com - arrow_bow_PNG37.png");
+    // Cambiar el tamaño de la flecha
+    QPixmap scaledPixmap = pixmap.scaled(200, 200, Qt::KeepAspectRatio, Qt::SmoothTransformation); // Ajusta el tamaño aquí
+    setPixmap(scaledPixmap);
 
     QTimer *timer = new QTimer();
     connect(timer, SIGNAL(timeout()), this, SLOT(move()));
@@ -13,11 +16,11 @@ Flecha::Flecha(QGraphicsItem *parent) : QObject(), QGraphicsPixmapItem(parent) {
 }
 
 void Flecha::move() {
-    // Mover la flecha hacia arriba
-    setPos(x(), y() - 10);
+    // Mover la flecha hacia la derecha
+    setPos(x() + 10, y());
 
     // Eliminar flecha si sale de la escena
-    if (pos().y() + pixmap().height() < 0) {
+    if (pos().x() > scene()->width()) {
         scene()->removeItem(this);
         delete this;
         return;
