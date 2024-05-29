@@ -8,15 +8,6 @@ Personaje::Personaje(QGraphicsItem *parent) : QObject(), QGraphicsPixmapItem(par
     setPixmap(QPixmap("C:/Users/juana/Downloads/Vikings/Viking2/Run/1.png"));
 }
 
-void Personaje::keyPressEvent(QKeyEvent *event) {
-    if (event->key() == Qt::Key_Q) {
-
-        emit shootFlecha();
-    } else if (event->key() == Qt::Key_W) {
-
-        emit shootAntorcha();
-    }
-}
 
 void Personaje::shootFlecha() {
     Flecha *flecha = new Flecha();

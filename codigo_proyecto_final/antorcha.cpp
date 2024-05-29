@@ -2,6 +2,7 @@
 #include <QTimer>
 #include <QGraphicsScene>
 #include <cmath>
+#include "casa.h"
 
 Antorcha::Antorcha(QGraphicsItem *parent) : QObject(), QGraphicsPixmapItem(parent), vx(60), vy(0), t(0), g(9.8) {
     setPixmap(QPixmap("C:/Users/juana/Downloads/pngegg.png").scaled(100, 100));
@@ -12,10 +13,7 @@ Antorcha::Antorcha(QGraphicsItem *parent) : QObject(), QGraphicsPixmapItem(paren
 }
 
 void Antorcha::setInitialVelocity(float velIn, float theta) {
-
     theta = theta * M_PI / 180.0;
-
-
     vx = velIn * cos(theta);
     vy = -velIn * sin(theta);
 }
@@ -29,6 +27,20 @@ void Antorcha::move() {
     vy += g * dt;
 
     setPos(posX, posY);
+
+
+    QList<QGraphicsItem *> collidingItems = scene()->collidingItems(this);
+    for (QGraphicsItem *item : collidingItems) {
+        Casa *casa = dynamic_cast<Casa *>(item);
+        if (casa) {
+            scene()->removeItem(casa);
+            delete casa;
+
+            scene()->removeItem(this);
+            delete this;
+            return;
+        }
+    }
 
     if (posY >= scene()->height()) {
         QTimer *timer = qobject_cast<QTimer*>(sender());

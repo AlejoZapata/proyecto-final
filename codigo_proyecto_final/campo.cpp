@@ -6,7 +6,7 @@
 #include "enemigo.h"
 
 Campo::Campo(QGraphicsItem *parent) : QObject(), QGraphicsEllipseItem(parent) {
-    setRect(100, -100, 500, 500);
+    setRect(50, -100, 500, 500);
     setBrush(QBrush(Qt::blue, Qt::Dense4Pattern));
 
     QTimer *timer = new QTimer();

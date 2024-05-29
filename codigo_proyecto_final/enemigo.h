@@ -7,12 +7,12 @@
 class Enemigo : public QObject, public QGraphicsPixmapItem {
     Q_OBJECT
 public:
-    Enemigo(QGraphicsItem *parent = nullptr);
+    Enemigo(bool shouldMove, QGraphicsItem *parent = nullptr);
 public slots:
     void move();
 private:
-
     float vx;
+    bool shouldMove;
 };
 
 #endif // ENEMIGO_H

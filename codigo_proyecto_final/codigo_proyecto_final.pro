@@ -11,6 +11,7 @@ CONFIG += c++17
 SOURCES += \
     antorcha.cpp \
     campo.cpp \
+    casa.cpp \
     enemigo.cpp \
     flecha.cpp \
     game.cpp \
@@ -21,6 +22,7 @@ SOURCES += \
 HEADERS += \
     antorcha.h \
     campo.h \
+    casa.h \
     enemigo.h \
     flecha.h \
     game.h \

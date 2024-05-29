@@ -6,32 +6,35 @@
 #include <QGraphicsRectItem>
 #include <QKeyEvent>
 #include <QTimer>
-
+#include <QGraphicsRectItem>
+#include <QKeyEvent>
+#include <QTimer>
+#include <QGraphicsRectItem>
+#include <QKeyEvent>
+#include <QTimer>
+#include "casa.h"
+#include <random>
 void Game::setLevelBackground(const QString &imagePath) {
     QPixmap originalImage(imagePath);
-
-
     levelBackground = originalImage.scaled(800, 600, Qt::KeepAspectRatioByExpanding, Qt::SmoothTransformation);
-
     setBackgroundBrush(levelBackground);
 }
 
+
+
 Game::Game(QWidget *parent) : QGraphicsView(parent), currentLevel(1), enemiesSpawned(0) {
-    // Crear la escena
+
     scene = new QGraphicsScene(this);
     setScene(scene);
 
-    // Crear el personaje principal
+
     player = new Personaje();
     player->setPixmap(QPixmap("C:/Users/juana/Downloads/Vikings/Viking1/Hit/5.png"));
     scene->addItem(player);
-    player->setPos(-150, 100);  // Posición inicial del personaje
-
+    player->setPos(-150, 100);
 
     setFixedSize(800, 600);
     scene->setSceneRect(0, 0, 800, 600);
-
-
     setFocusPolicy(Qt::StrongFocus);
 
     // Iniciar nivel
@@ -45,6 +48,12 @@ void Game::keyPressEvent(QKeyEvent *event) {
     } else if (event->key() == Qt::Key_Right) {
         if (player->x() + player->pixmap().width() < scene->width())
             player->setPos(player->x() + 10, player->y());
+    } else if (event->key() == Qt::Key_Up) {
+        if (player->y() > 0)
+            player->setPos(player->x(), player->y() - 10);
+    } else if (event->key() == Qt::Key_Down) {
+        if (player->y() + player->pixmap().height() < scene->height())
+            player->setPos(player->x(), player->y() + 10);
     } else if (event->key() == Qt::Key_Space) {
         if (currentLevel == 1) {
             player->shootFlecha();
@@ -57,6 +66,7 @@ void Game::keyPressEvent(QKeyEvent *event) {
         player->shootAntorcha();
     }
 }
+
 void Game::handleFlechaShoot() {
     player->shootFlecha();
 }
@@ -64,18 +74,19 @@ void Game::handleFlechaShoot() {
 void Game::handleAntorchaShoot() {
     player->shootAntorcha();
 }
+
 void Game::startLevel1() {
     currentLevel = 1;
     setLevelBackground("C:/Users/juana/Downloads/barco2.jpg");
 
-    // Reiniciar el contador de enemigos
+
     enemiesSpawned = 0;
 
-    // Generar enemigos
+
     QTimer *enemyTimer = new QTimer(this);
     connect(enemyTimer, &QTimer::timeout, [this, enemyTimer]() {
         if (enemiesSpawned < 20) {
-            Enemigo *enemy = new Enemigo();
+            Enemigo *enemy = new Enemigo(true);
             scene->addItem(enemy);
             enemiesSpawned++;
         } else {
@@ -87,9 +98,22 @@ void Game::startLevel1() {
 
 void Game::startLevel2() {
     currentLevel = 2;
-    setLevelBackground("C:/Users/juana/Downloads/nivel2.jpg");
-    // Establecer un temporizador para el nivel
-    QTimer::singleShot(30000, [this]() {  // Nivel de 30 segundos
+    setLevelBackground("C:/Users/juana/Downloads/zonaverde.png");
+
+    // Generar 10 casas
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::uniform_int_distribution<> disX(0, int(scene->width() - 100));
+    std::uniform_int_distribution<> disY(0, int(scene->height() - 100));
+
+    for (int i = 0; i < 10; ++i) {
+        Casa *casa = new Casa();
+        casa->setPos(disX(gen), disY(gen));
+        scene->addItem(casa);
+    }
+
+
+    QTimer::singleShot(30000, [this]() {
 
     });
 }
@@ -104,13 +128,13 @@ void Game::startLevel3() {
     // Generar enemigos
     QTimer *enemyTimer = new QTimer(this);
     connect(enemyTimer, &QTimer::timeout, [this]() {
-        Enemigo *enemy = new Enemigo();
+        Enemigo *enemy = new Enemigo(false);
         scene->addItem(enemy);
     });
-    enemyTimer->start(2000);  // Cada 2 segundos aparece un enemigo
+    enemyTimer->start(2000);
 
-    // Establecer un temporizador para el nivel
-    QTimer::singleShot(30000, [this]() {  // Nivel de 30 segundos
+
+    QTimer::singleShot(30000, [this]() {
 
     });
 }

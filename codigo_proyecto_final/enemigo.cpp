@@ -2,13 +2,12 @@
 #include <QTimer>
 #include <QGraphicsScene>
 #include <stdlib.h>
+Enemigo::Enemigo(bool shouldMove, QGraphicsItem *parent) : QObject(), QGraphicsPixmapItem(parent), vx(-3), shouldMove(shouldMove) {
+    QPixmap originalPixmap("C:/Users/juana/Downloads/enemigo.png");
+    QPixmap scaledPixmap = originalPixmap.scaled(400, 400, Qt::KeepAspectRatio);
+    setPixmap(scaledPixmap);
 
-Enemigo::Enemigo(QGraphicsItem *parent) : QObject(), QGraphicsPixmapItem(parent) {
-    setPixmap(QPixmap("C:/Users/juana/Downloads/Vikings/Viking3/Alert1H/4.png"));
-
-    setPos(500, 100); // x = 100, y = 50 (ajusta según sea necesario)
-
-    vx = -3;
+    setPos(500, 150);
 
     QTimer *timer = new QTimer();
     connect(timer, SIGNAL(timeout()), this, SLOT(move()));
@@ -16,6 +15,10 @@ Enemigo::Enemigo(QGraphicsItem *parent) : QObject(), QGraphicsPixmapItem(parent)
 }
 
 void Enemigo::move() {
+    if (!shouldMove) {
+        return;
+    }
+
     const int sueloPosY = 500;
 
     setPos(x() + vx, y());

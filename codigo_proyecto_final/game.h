@@ -16,8 +16,8 @@ public:
     void startLevel3();
     void setLevelBackground(const QString &imagePath);
 public slots:
-    void handleFlechaShoot(); // Ranura para el disparo de flechas
-    void handleAntorchaShoot(); // Ranura para el disparo de antorchas
+    void handleFlechaShoot();
+    void handleAntorchaShoot();
 private:
     QGraphicsScene *scene;
     Personaje *player;
