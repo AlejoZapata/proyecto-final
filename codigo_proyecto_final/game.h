@@ -18,6 +18,7 @@ public:
 public slots:
     void handleFlechaShoot();
     void handleAntorchaShoot();
+    void spawnEnemigo2();
 private:
     QGraphicsScene *scene;
     Personaje *player;

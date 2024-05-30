@@ -13,6 +13,7 @@ SOURCES += \
     campo.cpp \
     casa.cpp \
     enemigo.cpp \
+    enemigo2.cpp \
     flecha.cpp \
     game.cpp \
     main.cpp \
@@ -24,6 +25,7 @@ HEADERS += \
     campo.h \
     casa.h \
     enemigo.h \
+    enemigo2.h \
     flecha.h \
     game.h \
     mainwindow.h \

@@ -4,15 +4,16 @@
 #include <QKeyEvent>
 #include <QGraphicsScene>
 
-
 Personaje::Personaje(QGraphicsItem *parent) : QObject(), QGraphicsPixmapItem(parent), shootDirectionRight(true) {
     setPixmap(QPixmap("C:/Users/juana/Downloads/Vikings/Viking2/Run/1.png"));
 }
 
 void Personaje::shootFlecha() {
-    Flecha *flecha = new Flecha();
+    Flecha *flecha = new Flecha(shootDirectionRight);
     flecha->setPos(x() + pixmap().width() / 2, y() + pixmap().height() / 2);
     scene()->addItem(flecha);
+
+    shootDirectionRight = !shootDirectionRight;
 }
 
 void Personaje::shootAntorcha() {

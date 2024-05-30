@@ -8,9 +8,11 @@
 class Flecha : public QObject, public QGraphicsPixmapItem {
     Q_OBJECT
 public:
-    Flecha(QGraphicsItem *parent = nullptr);
+    Flecha(bool directionRight, QGraphicsItem *parent = nullptr);
 public slots:
     void move();
+private:
+    bool directionRight;
 };
 
 #endif // FLECHA_H

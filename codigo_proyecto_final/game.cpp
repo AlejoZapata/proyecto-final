@@ -14,7 +14,7 @@
 #include <QTimer>
 #include "casa.h"
 #include <random>
-
+#include "enemigo2.h"
 void Game::setLevelBackground(const QString &imagePath) {
     QPixmap originalImage(imagePath);
     levelBackground = originalImage.scaled(800, 600, Qt::KeepAspectRatioByExpanding, Qt::SmoothTransformation);
@@ -39,7 +39,7 @@ Game::Game(QWidget *parent) : QGraphicsView(parent), currentLevel(1), enemiesSpa
     setFocusPolicy(Qt::StrongFocus);
 
     // Iniciar nivel
-    startLevel2();
+    startLevel1();
 }
 
 void Game::keyPressEvent(QKeyEvent *event) {
@@ -105,14 +105,13 @@ void Game::startLevel2() {
     std::random_device rd;
     std::mt19937 gen(rd());
     std::uniform_int_distribution<> disX(0, int(scene->width() - 100));
-    std::uniform_int_distribution<> disY(0, int(scene->height() - 100));
+    std::uniform_int_distribution<> disY(50, int(scene->height() / 2));
 
     for (int i = 0; i < 10; ++i) {
         Casa *casa = new Casa();
         casa->setPos(disX(gen), disY(gen));
         scene->addItem(casa);
     }
-
 
     QTimer::singleShot(30000, [this]() {
 
@@ -122,11 +121,12 @@ void Game::startLevel2() {
 void Game::startLevel3() {
     currentLevel = 3;
     setLevelBackground("C:/Users/juana/Downloads/nivel3.jpg");
+
     // Crear el campo de fuerza
     Campo *campo = new Campo(player);
     scene->addItem(campo);
 
-    // Generar enemigos
+    // Generar enemigos Enemigo
     QTimer *enemyTimer = new QTimer(this);
     connect(enemyTimer, &QTimer::timeout, [this]() {
         Enemigo *enemy = new Enemigo(false);
@@ -134,8 +134,17 @@ void Game::startLevel3() {
     });
     enemyTimer->start(2000);
 
+    // Generar enemigos Enemigo2
+    QTimer *enemy2Timer = new QTimer(this);
+    connect(enemy2Timer, &QTimer::timeout, this, &Game::spawnEnemigo2);
+    enemy2Timer->start(3000); // Cada 3 segundos aparece un enemigo2
 
     QTimer::singleShot(30000, [this]() {
-
+        // Finalizar nivel después de 30 segundos
     });
+}
+
+void Game::spawnEnemigo2() {
+    Enemigo2 *enemy2 = new Enemigo2();
+    scene->addItem(enemy2);
 }
