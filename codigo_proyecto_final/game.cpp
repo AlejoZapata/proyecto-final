@@ -39,7 +39,7 @@ Game::Game(QWidget *parent) : QGraphicsView(parent), currentLevel(1), enemiesSpa
     setFocusPolicy(Qt::StrongFocus);
 
     // Iniciar nivel
-    startLevel1();
+    startLevel2();
 }
 
 void Game::keyPressEvent(QKeyEvent *event) {
@@ -94,7 +94,7 @@ void Game::startLevel1() {
             enemyTimer->stop();
         }
     });
-    enemyTimer->start(2000);  // Cada 2 segundos aparece un enemigo
+    enemyTimer->start(1900);
 }
 
 void Game::startLevel2() {
@@ -122,11 +122,9 @@ void Game::startLevel3() {
     currentLevel = 3;
     setLevelBackground("C:/Users/juana/Downloads/nivel3.jpg");
 
-    // Crear el campo de fuerza
     Campo *campo = new Campo(player);
     scene->addItem(campo);
 
-    // Generar enemigos Enemigo
     QTimer *enemyTimer = new QTimer(this);
     connect(enemyTimer, &QTimer::timeout, [this]() {
         Enemigo *enemy = new Enemigo(false);
@@ -134,10 +132,9 @@ void Game::startLevel3() {
     });
     enemyTimer->start(2000);
 
-    // Generar enemigos Enemigo2
     QTimer *enemy2Timer = new QTimer(this);
     connect(enemy2Timer, &QTimer::timeout, this, &Game::spawnEnemigo2);
-    enemy2Timer->start(3000); // Cada 3 segundos aparece un enemigo2
+    enemy2Timer->start(3000);
 
     QTimer::singleShot(30000, [this]() {
         // Finalizar nivel después de 30 segundos

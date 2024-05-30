@@ -10,8 +10,11 @@ public:
     Personaje(QGraphicsItem *parent = nullptr);
     void shootFlecha();
     void shootAntorcha();
+private slots:
+    void enableShoot();
 private:
     bool shootDirectionRight;
+    bool canShoot;
 };
 
 #endif // PERSONAJE_H
