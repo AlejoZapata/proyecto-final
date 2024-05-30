@@ -30,7 +30,6 @@ Game::Game(QWidget *parent) : QGraphicsView(parent), currentLevel(1), enemiesSpa
 
 
     player = new Personaje();
-    player->setPixmap(QPixmap("C:/Users/juana/Downloads/Vikings/Viking1/Hit/5.png"));
     scene->addItem(player);
     player->setPos(-150, 100);
 
@@ -41,14 +40,19 @@ Game::Game(QWidget *parent) : QGraphicsView(parent), currentLevel(1), enemiesSpa
     // Iniciar nivel
     startLevel2();
 }
-
 void Game::keyPressEvent(QKeyEvent *event) {
     if (event->key() == Qt::Key_Left) {
-        if (player->x() > 0)
+        if (player->x() > 0) {
             player->setPos(player->x() - 10, player->y());
+            player->setPixmap(player->sprites[player->spriteIndex]);
+            player->spriteIndex = (player->spriteIndex + 1) % 5;  // Cicla a través de los sprites 1-5
+        }
     } else if (event->key() == Qt::Key_Right) {
-        if (player->x() + player->pixmap().width() < scene->width())
+        if (player->x() + player->pixmap().width() < scene->width()) {
             player->setPos(player->x() + 10, player->y());
+            player->setPixmap(player->sprites[player->spriteIndex + 5]);
+            player->spriteIndex = (player->spriteIndex + 1) % 5;  // Cicla a través de los sprites 6-10
+        }
     } else if (event->key() == Qt::Key_Up) {
         if (player->y() > 0)
             player->setPos(player->x(), player->y() - 10);
@@ -67,6 +71,8 @@ void Game::keyPressEvent(QKeyEvent *event) {
         player->shootAntorcha();
     }
 }
+
+
 
 void Game::handleFlechaShoot() {
     player->shootFlecha();

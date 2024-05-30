@@ -4,9 +4,15 @@
 #include <QKeyEvent>
 #include <QGraphicsScene>
 #include <QTimer>
-
 Personaje::Personaje(QGraphicsItem *parent) : QObject(), QGraphicsPixmapItem(parent), shootDirectionRight(true), canShoot(true) {
-    setPixmap(QPixmap("C:/Users/juana/Downloads/Vikings/Viking2/Run/1.png"));
+
+    for (int i = 0; i <= 10; i++) {
+        QString imagePath = QString("C:/Users/juana/Downloads/Vikings/Viking1/Run/%0").arg(i);
+        sprites.append(QPixmap(imagePath));
+    }
+
+
+    setPixmap(sprites[0]);
 }
 
 void Personaje::shootFlecha() {

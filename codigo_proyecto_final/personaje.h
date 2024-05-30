@@ -10,6 +10,8 @@ public:
     Personaje(QGraphicsItem *parent = nullptr);
     void shootFlecha();
     void shootAntorcha();
+    QList<QPixmap> sprites;
+    int spriteIndex = 0;
 private slots:
     void enableShoot();
 private:
