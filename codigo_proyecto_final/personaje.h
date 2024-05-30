@@ -10,13 +10,24 @@ public:
     Personaje(QGraphicsItem *parent = nullptr);
     void shootFlecha();
     void shootAntorcha();
+    void animateMovement();
+    void animateShooting();
+    void stopShootingAnimation();
     QList<QPixmap> sprites;
+    QList<QPixmap> shootingSprites;
     int spriteIndex = 0;
-private slots:
-    void enableShoot();
-private:
+    int shootingSpriteIndex = 0;
+    bool isAnimating = false;
+    bool isShootingAnimating = false;
+    QTimer *animationTimer;
+    QTimer *shootingAnimationTimer;
+    QTimer *stopShootingAnimationTimer;
     bool shootDirectionRight;
     bool canShoot;
+private slots:
+    void enableShoot();
+public slots:
+    void animate();
 };
 
 #endif // PERSONAJE_H

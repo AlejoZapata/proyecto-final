@@ -4,15 +4,53 @@
 #include <QKeyEvent>
 #include <QGraphicsScene>
 #include <QTimer>
-Personaje::Personaje(QGraphicsItem *parent) : QObject(), QGraphicsPixmapItem(parent), shootDirectionRight(true), canShoot(true) {
+#include "Personaje.h"
+#include <QTimer>
 
+Personaje::Personaje(QGraphicsItem *parent) : QObject(), QGraphicsPixmapItem(parent), shootDirectionRight(true), canShoot(true), isAnimating(false), isShootingAnimating(false), spriteIndex(0), shootingSpriteIndex(0) {
     for (int i = 0; i <= 10; i++) {
         QString imagePath = QString("C:/Users/juana/Downloads/Vikings/Viking1/Run/%0").arg(i);
         sprites.append(QPixmap(imagePath));
     }
 
+    for (int i = 0; i <= 10; i++) {
+        QString imagePath = QString("C:/Users/juana/Downloads/Vikings/Viking1/Attack1H/%0").arg(i);
+        shootingSprites.append(QPixmap(imagePath));
+    }
 
     setPixmap(sprites[0]);
+
+    animationTimer = new QTimer(this);
+    connect(animationTimer, &QTimer::timeout, this, &Personaje::animateMovement);
+
+    shootingAnimationTimer = new QTimer(this);
+    shootingAnimationTimer->setSingleShot(false);
+    connect(shootingAnimationTimer, &QTimer::timeout, this, &Personaje::animateShooting);
+
+    stopShootingAnimationTimer = new QTimer(this);
+    stopShootingAnimationTimer->setSingleShot(true);
+    connect(stopShootingAnimationTimer, &QTimer::timeout, this, &Personaje::stopShootingAnimation);
+}
+
+void Personaje::stopShootingAnimation() {
+    isShootingAnimating = false;
+    shootingAnimationTimer->stop();
+}
+void Personaje::animateMovement() {
+    setPixmap(sprites[spriteIndex]);
+    spriteIndex = (spriteIndex + 1) % sprites.size();
+}
+void Personaje::animate() {
+    if (isAnimating) {
+        setPixmap(shootingSprites[spriteIndex]);
+    } else {
+        setPixmap(sprites[spriteIndex]);
+    }
+    spriteIndex = (spriteIndex + 1) % sprites.size();
+}
+void Personaje::animateShooting() {
+    setPixmap(shootingSprites[shootingSpriteIndex]);
+    shootingSpriteIndex = (shootingSpriteIndex + 1) % shootingSprites.size();
 }
 
 void Personaje::shootFlecha() {
@@ -25,6 +63,10 @@ void Personaje::shootFlecha() {
         canShoot = false;
 
         QTimer::singleShot(1000, this, &Personaje::enableShoot);
+
+        isShootingAnimating = true;
+        shootingAnimationTimer->start(100);
+        stopShootingAnimationTimer->start(1000);
     }
 }
 
@@ -44,6 +86,10 @@ void Personaje::shootAntorcha() {
         canShoot = false;
 
         QTimer::singleShot(1000, this, &Personaje::enableShoot);
+
+        isShootingAnimating = true;
+        shootingAnimationTimer->start(100);
+        stopShootingAnimationTimer->start(1000);
     }
 }
 

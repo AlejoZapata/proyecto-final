@@ -37,21 +37,20 @@ Game::Game(QWidget *parent) : QGraphicsView(parent), currentLevel(1), enemiesSpa
     scene->setSceneRect(0, 0, 800, 600);
     setFocusPolicy(Qt::StrongFocus);
 
-    // Iniciar nivel
-    startLevel2();
+    startLevel3();
 }
 void Game::keyPressEvent(QKeyEvent *event) {
     if (event->key() == Qt::Key_Left) {
         if (player->x() > 0) {
             player->setPos(player->x() - 10, player->y());
             player->setPixmap(player->sprites[player->spriteIndex]);
-            player->spriteIndex = (player->spriteIndex + 1) % 5;  // Cicla a través de los sprites 1-5
+            player->spriteIndex = (player->spriteIndex + 1) % 5;
         }
     } else if (event->key() == Qt::Key_Right) {
         if (player->x() + player->pixmap().width() < scene->width()) {
             player->setPos(player->x() + 10, player->y());
             player->setPixmap(player->sprites[player->spriteIndex + 5]);
-            player->spriteIndex = (player->spriteIndex + 1) % 5;  // Cicla a través de los sprites 6-10
+            player->spriteIndex = (player->spriteIndex + 1) % 5;
         }
     } else if (event->key() == Qt::Key_Up) {
         if (player->y() > 0)
@@ -107,7 +106,6 @@ void Game::startLevel2() {
     currentLevel = 2;
     setLevelBackground("C:/Users/juana/Downloads/zonaverde.png");
 
-    // Generar 10 casas
     std::random_device rd;
     std::mt19937 gen(rd());
     std::uniform_int_distribution<> disX(0, int(scene->width() - 100));
@@ -143,7 +141,6 @@ void Game::startLevel3() {
     enemy2Timer->start(3000);
 
     QTimer::singleShot(30000, [this]() {
-        // Finalizar nivel después de 30 segundos
     });
 }
 
