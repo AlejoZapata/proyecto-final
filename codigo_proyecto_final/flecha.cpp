@@ -6,7 +6,6 @@
 
 Flecha::Flecha(QGraphicsItem *parent) : QObject(), QGraphicsPixmapItem(parent) {
     QPixmap pixmap("C:/Users/juana/Downloads/pngimg.com - arrow_bow_PNG37.png");
-
     QPixmap scaledPixmap = pixmap.scaled(200, 200, Qt::KeepAspectRatio, Qt::SmoothTransformation);
     setPixmap(scaledPixmap);
 
@@ -16,9 +15,7 @@ Flecha::Flecha(QGraphicsItem *parent) : QObject(), QGraphicsPixmapItem(parent) {
 }
 
 void Flecha::move() {
-
     setPos(x() + 10, y());
-
 
     if (pos().x() > scene()->width()) {
         scene()->removeItem(this);

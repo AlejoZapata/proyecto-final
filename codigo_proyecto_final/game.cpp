@@ -14,6 +14,7 @@
 #include <QTimer>
 #include "casa.h"
 #include <random>
+
 void Game::setLevelBackground(const QString &imagePath) {
     QPixmap originalImage(imagePath);
     levelBackground = originalImage.scaled(800, 600, Qt::KeepAspectRatioByExpanding, Qt::SmoothTransformation);

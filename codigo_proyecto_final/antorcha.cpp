@@ -4,6 +4,7 @@
 #include <cmath>
 #include "casa.h"
 
+
 Antorcha::Antorcha(QGraphicsItem *parent) : QObject(), QGraphicsPixmapItem(parent), vx(60), vy(0), t(0), g(9.8) {
     setPixmap(QPixmap("C:/Users/juana/Downloads/pngegg.png").scaled(100, 100));
 
@@ -28,7 +29,7 @@ void Antorcha::move() {
 
     setPos(posX, posY);
 
-
+    // Detectar colisiones con casas
     QList<QGraphicsItem *> collidingItems = scene()->collidingItems(this);
     for (QGraphicsItem *item : collidingItems) {
         Casa *casa = dynamic_cast<Casa *>(item);
