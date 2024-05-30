@@ -9,12 +9,13 @@ class Antorcha : public QObject, public QGraphicsPixmapItem {
 public:
     Antorcha(QGraphicsItem *parent = nullptr);
     void setInitialVelocity(float vx, float vy);
+    void setInitialVelocityWithAngle(float velIn, float theta);
 public slots:
     void move();
 private:
     float vx, vy;
-    float t; // Agregamos el miembro para el tiempo
-    float g; // Aceleración debido a la gravedad
+    float t;
+    float g;
 };
 
 #endif // ANTORCHA_H

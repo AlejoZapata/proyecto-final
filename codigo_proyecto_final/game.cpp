@@ -39,7 +39,7 @@ Game::Game(QWidget *parent) : QGraphicsView(parent), currentLevel(1), enemiesSpa
     setFocusPolicy(Qt::StrongFocus);
 
     // Iniciar nivel
-    startLevel3();
+    startLevel2();
 }
 
 void Game::keyPressEvent(QKeyEvent *event) {
