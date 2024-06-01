@@ -18,25 +18,23 @@
 #include <QApplication>
 #include <QPushButton>
 #include <QGraphicsProxyWidget>
-
+#include <QMessageBox>
 void Game::setLevelBackground(const QString &imagePath) {
     QPixmap originalImage(imagePath);
     levelBackground = originalImage.scaled(800, 600, Qt::KeepAspectRatioByExpanding, Qt::SmoothTransformation);
     setBackgroundBrush(levelBackground);
 }
-void Game::showLoadingScreen() {
 
+void Game::showLoadingScreen() {
     QPixmap backgroundImage("C:/Users/juana/Downloads/_4d4dba4c-a651-4804-ae37-8014e6c73718 (1).jpg");
     QGraphicsPixmapItem *background = new QGraphicsPixmapItem(backgroundImage.scaled(800, 600));
     scene->addItem(background);
-
 
     QPushButton *startButton = new QPushButton("Click para empezar");
     startButton->setFixedSize(300, 60);
     startButton->setFont(QFont("Times New Roman", 20, QFont::Bold));
     QGraphicsProxyWidget *proxy = scene->addWidget(startButton);
     proxy->setPos(scene->width() / 2 - startButton->width() / 2, scene->height() / 2 + 150);
-
 
     connect(startButton, &QPushButton::clicked, this, &Game::startLevel1);
     connect(startButton, &QPushButton::clicked, [=]() {
@@ -57,7 +55,6 @@ Game::Game(QWidget *parent) : QGraphicsView(parent), currentLevel(1), enemiesSpa
     setFixedSize(800, 600);
     scene->setSceneRect(0, 0, 800, 600);
     setFocusPolicy(Qt::StrongFocus);
-
 
     showLoadingScreen();
 }
@@ -101,12 +98,10 @@ void Game::handleFlechaShoot() {
 void Game::handleAntorchaShoot() {
     player->shootAntorcha();
 }
+
 void Game::startLevel1() {
     currentLevel = 1;
-
-
     setLevelBackground("C:/Users/juana/Downloads/barco2.jpg");
-
 
     QGraphicsTextItem *comicText1 = new QGraphicsTextItem("¿Estaremos cometiendo un error al dirigirnos a Lindisfarne?");
     comicText1->setFont(QFont("Arial", 16, QFont::Bold));
@@ -115,11 +110,9 @@ void Game::startLevel1() {
     comicText1->setPos(scene->width() / 2 - comicText1->boundingRect().width() / 2, scene->height() / 4 - comicText1->boundingRect().height());
     scene->addItem(comicText1);
 
-
     QTimer::singleShot(5000, [=]() {
         scene->removeItem(comicText1);
         delete comicText1;
-
 
         QGraphicsTextItem *comicText2 = new QGraphicsTextItem("¡Oh no! Nos están atacando.\n¡No dejes que pasen! Lánzales hachas con \"T\".");
         comicText2->setFont(QFont("Arial", 16, QFont::Bold));
@@ -128,11 +121,9 @@ void Game::startLevel1() {
         comicText2->setPos(scene->width() / 2 - comicText2->boundingRect().width() / 2, scene->height() / 4 - comicText2->boundingRect().height());
         scene->addItem(comicText2);
 
-
         QTimer::singleShot(5000, [=]() {
             scene->removeItem(comicText2);
             delete comicText2;
-
 
             enemiesSpawned = 0;
             enemiesOutOfBounds = 0;
@@ -154,9 +145,9 @@ void Game::startLevel1() {
         });
     });
 }
+
 void Game::startLevel2() {
     currentLevel = 2;
-
     setLevelBackground("C:/Users/juana/Downloads/zonaverde.png");
 
     QGraphicsTextItem *comicText1 = new QGraphicsTextItem("Nos están exigiendo pagar impuestos para comerciar.");
@@ -200,12 +191,12 @@ void Game::startLevel2() {
         });
     });
 }
+
 void Game::startLevel3() {
     currentLevel = 3;
-
+    enemiesOutOfBounds = 0;
 
     setLevelBackground("C:/Users/juana/Downloads/nivel3.jpg");
-
 
     QGraphicsTextItem *comicText1 = new QGraphicsTextItem("Todos saben que estamos aquí.");
     comicText1->setFont(QFont("Arial", 16, QFont::Bold));
@@ -214,11 +205,9 @@ void Game::startLevel3() {
     comicText1->setPos(scene->width() / 2 - comicText1->boundingRect().width() / 2, scene->height() / 4 - comicText1->boundingRect().height());
     scene->addItem(comicText1);
 
-
     QTimer::singleShot(5000, [=]() {
         scene->removeItem(comicText1);
         delete comicText1;
-
 
         QGraphicsTextItem *comicText2 = new QGraphicsTextItem("¡Sobrevive!");
         comicText2->setFont(QFont("Arial", 30, QFont::Bold));
@@ -240,6 +229,7 @@ void Game::startLevel3() {
             connect(enemyTimer, &QTimer::timeout, [this]() {
                 Enemigo *enemy = new Enemigo(false);
                 scene->addItem(enemy);
+                connect(enemy, &Enemigo::enemyOutOfBounds, this, &Game::onEnemyOutOfBounds);
             });
             enemyTimer->start(2000);
 
@@ -256,30 +246,29 @@ void Game::startLevel3() {
         });
     });
 }
+
 void Game::spawnEnemigo2() {
     Enemigo2 *enemy2 = new Enemigo2();
     scene->addItem(enemy2);
 }
-
 void Game::onEnemyOutOfBounds() {
     qDebug() << "¡Enemigo se salió del mapa!";
     enemiesOutOfBounds++;
-    if (enemiesOutOfBounds >= 1) {
-        qDebug() << "¡Has perdido el nivel 1!";
+    qDebug() << "enemiesOutOfBounds: " << enemiesOutOfBounds;
+    if (enemiesOutOfBounds >= 1 && !gameOverDisplayed) {
+        qDebug() << "¡Has perdido el nivel!";
+        gameOverDisplayed = true;
         clearLevel();
-        startLevel1();
+        showGameOverMessage();
+
     }
 }
-
 void Game::onEnemyReachedMidpoint() {
     qDebug() << "¡Enemigo llegó a la mitad del campo!";
-    if (currentLevel == 3) {
-        qDebug() << "¡Has perdido el nivel 3!";
-        clearLevel();
-        startLevel3();
-    }
+    qDebug() << "¡Has perdido el nivel!";
+    clearLevel();
+    QTimer::singleShot(200, this, &Game::showGameOverMessage);
 }
-
 void Game::checkWinConditionLevel1() {
     if (enemiesSpawned >= 20 && enemiesOutOfBounds == 0) {
         qDebug() << "¡Has ganado el nivel 1!";
@@ -303,14 +292,6 @@ void Game::clearLevel() {
     timers.clear();
 }
 
-void Game::startNextLevel() {
-    if (currentLevel == 1) {
-        startLevel2();
-    } else if (currentLevel == 2) {
-        startLevel3();
-    }
-}
-
 void Game::showWinMessage() {
     clearLevel();
     QGraphicsTextItem *winText = new QGraphicsTextItem("¡Has ganado el juego!");
@@ -326,4 +307,20 @@ void Game::showWinMessage() {
     QTimer::singleShot(5000, []() {
         QApplication::quit();
     });
+}
+void Game::showGameOverMessage() {
+    clearLevel();
+
+    QMessageBox msgBox;
+    msgBox.setWindowTitle("Game Over");
+    msgBox.setText("¡GAME OVER!\nCerrando el juego");
+    msgBox.setIcon(QMessageBox::Warning);
+    msgBox.setStandardButtons(QMessageBox::Ok);
+    msgBox.setDefaultButton(QMessageBox::Ok);
+
+    msgBox.setStyleSheet("QLabel {font-size: 20px;}"
+                         "QPushButton {min-width: 100px; font-size: 16px; padding: 5px;}");
+
+    msgBox.exec();
+    QApplication::quit();
 }

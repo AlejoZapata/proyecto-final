@@ -20,6 +20,7 @@ public:
     void showLoadingScreen();
     void clearLevel();
     void showWinMessage();
+    void showGameOverMessage();
 public slots:
     void handleFlechaShoot();
     void handleAntorchaShoot();
@@ -27,7 +28,7 @@ public slots:
     void onEnemyOutOfBounds();
     void onEnemyReachedMidpoint();
     void checkWinConditionLevel1();
-    void startNextLevel();
+
 
 private:
     QGraphicsScene *scene;
@@ -37,6 +38,7 @@ private:
     int enemiesSpawned;
     int enemiesOutOfBounds;
     QVector<QTimer*> timers;
+    bool gameOverDisplayed = false;
 };
 
 #endif // GAME_H

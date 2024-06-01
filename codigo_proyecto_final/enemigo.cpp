@@ -28,7 +28,7 @@ void Enemigo::move() {
         return;
     }
 
-    // Emitir señal si el enemigo se sale de la escena
+
     if (pos().y() > 150 || pos().x() < -pixmap().width()) {
         emit enemyOutOfBounds();
         scene()->removeItem(this);
