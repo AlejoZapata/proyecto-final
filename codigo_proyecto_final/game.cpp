@@ -101,77 +101,159 @@ void Game::handleFlechaShoot() {
 void Game::handleAntorchaShoot() {
     player->shootAntorcha();
 }
-
 void Game::startLevel1() {
     currentLevel = 1;
+
+
     setLevelBackground("C:/Users/juana/Downloads/barco2.jpg");
-    enemiesSpawned = 0;
-    enemiesOutOfBounds = 0;
 
-    QTimer *enemyTimer = new QTimer(this);
-    timers.append(enemyTimer);
-    connect(enemyTimer, &QTimer::timeout, [this, enemyTimer]() {
-        if (enemiesSpawned < 20) {
-            Enemigo *enemy = new Enemigo(true);
-            scene->addItem(enemy);
-            connect(enemy, &Enemigo::enemyOutOfBounds, this, &Game::onEnemyOutOfBounds);
-            enemiesSpawned++;
-        } else {
-            enemyTimer->stop();
-            checkWinConditionLevel1();
-        }
+
+    QGraphicsTextItem *comicText1 = new QGraphicsTextItem("¿Estaremos cometiendo un error al dirigirnos a Lindisfarne?");
+    comicText1->setFont(QFont("Arial", 16, QFont::Bold));
+    comicText1->setDefaultTextColor(Qt::black);
+    comicText1->setTextWidth(400);
+    comicText1->setPos(scene->width() / 2 - comicText1->boundingRect().width() / 2, scene->height() / 4 - comicText1->boundingRect().height());
+    scene->addItem(comicText1);
+
+
+    QTimer::singleShot(5000, [=]() {
+        scene->removeItem(comicText1);
+        delete comicText1;
+
+
+        QGraphicsTextItem *comicText2 = new QGraphicsTextItem("¡Oh no! Nos están atacando.\n¡No dejes que pasen! Lánzales hachas con \"T\".");
+        comicText2->setFont(QFont("Arial", 16, QFont::Bold));
+        comicText2->setDefaultTextColor(Qt::black);
+        comicText2->setTextWidth(400);
+        comicText2->setPos(scene->width() / 2 - comicText2->boundingRect().width() / 2, scene->height() / 4 - comicText2->boundingRect().height());
+        scene->addItem(comicText2);
+
+
+        QTimer::singleShot(5000, [=]() {
+            scene->removeItem(comicText2);
+            delete comicText2;
+
+
+            enemiesSpawned = 0;
+            enemiesOutOfBounds = 0;
+
+            QTimer *enemyTimer = new QTimer(this);
+            timers.append(enemyTimer);
+            connect(enemyTimer, &QTimer::timeout, [this, enemyTimer]() {
+                if (enemiesSpawned < 20) {
+                    Enemigo *enemy = new Enemigo(true);
+                    scene->addItem(enemy);
+                    connect(enemy, &Enemigo::enemyOutOfBounds, this, &Game::onEnemyOutOfBounds);
+                    enemiesSpawned++;
+                } else {
+                    enemyTimer->stop();
+                    checkWinConditionLevel1();
+                }
+            });
+            enemyTimer->start(1900);
+        });
     });
-    enemyTimer->start(1900);
 }
-
-
 void Game::startLevel2() {
     currentLevel = 2;
+
     setLevelBackground("C:/Users/juana/Downloads/zonaverde.png");
 
-    std::random_device rd;
-    std::mt19937 gen(rd());
-    std::uniform_int_distribution<> disX(0, int(scene->width() - 100));
-    std::uniform_int_distribution<> disY(50, int(scene->height() / 2));
+    QGraphicsTextItem *comicText1 = new QGraphicsTextItem("Nos están exigiendo pagar impuestos para comerciar.");
+    comicText1->setFont(QFont("Arial", 16, QFont::Bold));
+    comicText1->setDefaultTextColor(Qt::black);
+    comicText1->setTextWidth(400);
+    comicText1->setPos(scene->width() / 2 - comicText1->boundingRect().width() / 2, scene->height() / 4 - comicText1->boundingRect().height());
+    scene->addItem(comicText1);
 
-    for (int i = 0; i < 10; ++i) {
-        Casa *casa = new Casa();
-        casa->setPos(disX(gen), disY(gen));
-        scene->addItem(casa);
-    }
+    QTimer::singleShot(5000, [=]() {
+        scene->removeItem(comicText1);
+        delete comicText1;
 
-    QTimer *singleShotTimer = new QTimer(this);
-    timers.append(singleShotTimer);
-    singleShotTimer->singleShot(30000, [this]() {
-        startLevel3();
+        QGraphicsTextItem *comicText2 = new QGraphicsTextItem("¡Destrúyelos! Con \"U\", lanza antorchas.");
+        comicText2->setFont(QFont("Arial", 16, QFont::Bold));
+        comicText2->setDefaultTextColor(Qt::black);
+        comicText2->setTextWidth(400);
+        comicText2->setPos(scene->width() / 2 - comicText2->boundingRect().width() / 2, scene->height() / 4 - comicText2->boundingRect().height());
+        scene->addItem(comicText2);
+
+        QTimer::singleShot(5000, [=]() {
+            scene->removeItem(comicText2);
+            delete comicText2;
+
+            std::random_device rd;
+            std::mt19937 gen(rd());
+            std::uniform_int_distribution<> disX(0, int(scene->width() - 100));
+            std::uniform_int_distribution<> disY(50, int(scene->height() / 2));
+
+            for (int i = 0; i < 10; ++i) {
+                Casa *casa = new Casa();
+                casa->setPos(disX(gen), disY(gen));
+                scene->addItem(casa);
+            }
+
+            QTimer *singleShotTimer = new QTimer(this);
+            timers.append(singleShotTimer);
+            singleShotTimer->singleShot(30000, [this]() {
+                startLevel3();
+            });
+        });
     });
 }
-
 void Game::startLevel3() {
     currentLevel = 3;
+
+
     setLevelBackground("C:/Users/juana/Downloads/nivel3.jpg");
 
-    Campo *campo = new Campo(player);
-    scene->addItem(campo);
-    connect(campo, &Campo::enemyReachedMidpoint, this, &Game::onEnemyReachedMidpoint);
 
-    QTimer *enemyTimer = new QTimer(this);
-    timers.append(enemyTimer);
-    connect(enemyTimer, &QTimer::timeout, [this]() {
-        Enemigo *enemy = new Enemigo(false);
-        scene->addItem(enemy);
-    });
-    enemyTimer->start(2000);
+    QGraphicsTextItem *comicText1 = new QGraphicsTextItem("Todos saben que estamos aquí.");
+    comicText1->setFont(QFont("Arial", 16, QFont::Bold));
+    comicText1->setDefaultTextColor(Qt::red);
+    comicText1->setTextWidth(400);
+    comicText1->setPos(scene->width() / 2 - comicText1->boundingRect().width() / 2, scene->height() / 4 - comicText1->boundingRect().height());
+    scene->addItem(comicText1);
 
-    QTimer *enemy2Timer = new QTimer(this);
-    timers.append(enemy2Timer);
-    connect(enemy2Timer, &QTimer::timeout, this, &Game::spawnEnemigo2);
-    enemy2Timer->start(3000);
 
-    QTimer *singleShotTimer = new QTimer(this);
-    timers.append(singleShotTimer);
-    singleShotTimer->singleShot(10000, [this]() {
-        showWinMessage();
+    QTimer::singleShot(5000, [=]() {
+        scene->removeItem(comicText1);
+        delete comicText1;
+
+
+        QGraphicsTextItem *comicText2 = new QGraphicsTextItem("¡Sobrevive!");
+        comicText2->setFont(QFont("Arial", 30, QFont::Bold));
+        comicText2->setDefaultTextColor(Qt::red);
+        comicText2->setTextWidth(400);
+        comicText2->setPos(scene->width() / 2 - comicText2->boundingRect().width() / 2, scene->height() / 4 - comicText2->boundingRect().height());
+        scene->addItem(comicText2);
+
+        QTimer::singleShot(5000, [=]() {
+            scene->removeItem(comicText2);
+            delete comicText2;
+
+            Campo *campo = new Campo(player);
+            scene->addItem(campo);
+            connect(campo, &Campo::enemyReachedMidpoint, this, &Game::onEnemyReachedMidpoint);
+
+            QTimer *enemyTimer = new QTimer(this);
+            timers.append(enemyTimer);
+            connect(enemyTimer, &QTimer::timeout, [this]() {
+                Enemigo *enemy = new Enemigo(false);
+                scene->addItem(enemy);
+            });
+            enemyTimer->start(2000);
+
+            QTimer *enemy2Timer = new QTimer(this);
+            timers.append(enemy2Timer);
+            connect(enemy2Timer, &QTimer::timeout, this, &Game::spawnEnemigo2);
+            enemy2Timer->start(3000);
+
+            QTimer *singleShotTimer = new QTimer(this);
+            timers.append(singleShotTimer);
+            singleShotTimer->singleShot(10000, [this]() {
+                showWinMessage();
+            });
+        });
     });
 }
 void Game::spawnEnemigo2() {
