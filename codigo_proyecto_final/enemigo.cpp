@@ -2,6 +2,7 @@
 #include <QTimer>
 #include <QGraphicsScene>
 #include <stdlib.h>
+
 Enemigo::Enemigo(bool shouldMove, QGraphicsItem *parent) : QObject(), QGraphicsPixmapItem(parent), vx(-3), shouldMove(shouldMove) {
     QPixmap originalPixmap("C:/Users/juana/Downloads/enemigo.png");
     QPixmap scaledPixmap = originalPixmap.scaled(400, 400, Qt::KeepAspectRatio);
@@ -27,8 +28,9 @@ void Enemigo::move() {
         return;
     }
 
-    // Eliminar el enemigo si sale de la escena
-    if (pos().y() > 600 || pos().x() < -pixmap().width()) {
+    // Emitir señal si el enemigo se sale de la escena
+    if (pos().y() > 150 || pos().x() < -pixmap().width()) {
+        emit enemyOutOfBounds();
         scene()->removeItem(this);
         delete this;
     }

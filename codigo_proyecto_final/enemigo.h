@@ -4,10 +4,13 @@
 #include <QGraphicsPixmapItem>
 #include <QObject>
 
+
 class Enemigo : public QObject, public QGraphicsPixmapItem {
     Q_OBJECT
 public:
     Enemigo(bool shouldMove, QGraphicsItem *parent = nullptr);
+signals:
+    void enemyOutOfBounds();
 public slots:
     void move();
 private:

@@ -3,6 +3,7 @@
 #include <QGraphicsScene>
 #include <cmath>
 #include "casa.h"
+#include "game.h"
 
 Antorcha::Antorcha(QGraphicsItem *parent) : QObject(), QGraphicsPixmapItem(parent), vx(60), vy(0), t(0), g(9.8) {
     setPixmap(QPixmap("C:/Users/juana/Downloads/pngegg.png").scaled(100, 100));
@@ -24,7 +25,10 @@ void Antorcha::setInitialVelocityWithAngle(float velIn, float theta) {
 }
 
 void Antorcha::move() {
+    qDebug() << "Antorcha moviéndose...";
     const float dt = 0.1;
+
+
 
     float posX = x() + (vx * dt);
     float posY = y() + (vy * dt) + (0.5 * g * dt * dt);
@@ -33,13 +37,15 @@ void Antorcha::move() {
 
     setPos(posX, posY);
 
-
     QList<QGraphicsItem *> collidingItems = scene()->collidingItems(this);
     for (QGraphicsItem *item : collidingItems) {
         Casa *casa = dynamic_cast<Casa *>(item);
         if (casa) {
             scene()->removeItem(casa);
             delete casa;
+
+            qDebug() << "Colisión detectada, emitiendo señal...";
+
 
             scene()->removeItem(this);
             delete this;

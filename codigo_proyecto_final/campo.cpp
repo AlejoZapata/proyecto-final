@@ -16,6 +16,7 @@ Campo::Campo(QGraphicsItem *parent) : QObject(), QGraphicsEllipseItem(parent) {
     timer->start(100);
 }
 
+
 void Campo::affectEnemies() {
     QPointF center = boundingRect().center();
 
@@ -23,6 +24,12 @@ void Campo::affectEnemies() {
     for (QGraphicsItem *item : items) {
         if (typeid(*item) == typeid(Enemigo) || typeid(*item) == typeid(Enemigo2)) {
             QPointF enemyPos = item->pos();
+
+
+            qreal threshold = 60.0;
+            if (QVector2D(enemyPos - center).length() <= threshold) {
+                emit enemyReachedMidpoint();
+            }
 
             QVector2D direction(center - enemyPos);
 

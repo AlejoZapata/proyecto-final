@@ -5,6 +5,7 @@
 #include <QWidget>
 #include <QGraphicsScene>
 #include "personaje.h"
+#include "antorcha.h"
 
 class Game : public QGraphicsView {
     Q_OBJECT
@@ -19,12 +20,21 @@ public slots:
     void handleFlechaShoot();
     void handleAntorchaShoot();
     void spawnEnemigo2();
+    void onEnemyOutOfBounds();
+    void onEnemyReachedMidpoint();
+
+
 private:
     QGraphicsScene *scene;
     Personaje *player;
     int currentLevel;
     QPixmap levelBackground;
     int enemiesSpawned;
+
+
+
+
+
 };
 
 #endif // GAME_H
