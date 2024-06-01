@@ -9,12 +9,12 @@
 
 Personaje::Personaje(QGraphicsItem *parent) : QObject(), QGraphicsPixmapItem(parent), shootDirectionRight(true), canShoot(true), isAnimating(false), isShootingAnimating(false), spriteIndex(0), shootingSpriteIndex(0) {
     for (int i = 0; i <= 10; i++) {
-        QString imagePath = QString("C:/Users/juana/Downloads/Vikings/Viking1/Run/%0").arg(i);
+        QString imagePath = QString(":personaje/Run/%0").arg(i);
         sprites.append(QPixmap(imagePath));
     }
 
     for (int i = 0; i <= 10; i++) {
-        QString imagePath = QString("C:/Users/juana/Downloads/Vikings/Viking1/Attack1H/%0").arg(i);
+        QString imagePath = QString(":personajeAt/Attack1H/%0").arg(i);
         shootingSprites.append(QPixmap(imagePath));
     }
 

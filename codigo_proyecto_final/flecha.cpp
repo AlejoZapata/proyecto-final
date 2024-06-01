@@ -9,9 +9,9 @@
 Flecha::Flecha(bool directionRight, QGraphicsItem *parent) : QObject(), QGraphicsPixmapItem(parent), directionRight(directionRight) {
     QPixmap pixmap;
     if (directionRight) {
-        pixmap.load("C:/Users/juana/Downloads/hacharigh-removebg-preview.png");
+        pixmap.load(":proyectiles/pr/hachaderecha");
     } else {
-        pixmap.load("C:/Users/juana/Downloads/hacha-removebg-preview.png");
+        pixmap.load(":proyectiles/pr/hachaiz");
     }
 
     QPixmap scaledPixmap = pixmap.scaled(140, 140, Qt::KeepAspectRatio, Qt::SmoothTransformation);

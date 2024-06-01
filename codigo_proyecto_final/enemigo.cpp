@@ -4,7 +4,7 @@
 #include <stdlib.h>
 
 Enemigo::Enemigo(bool shouldMove, QGraphicsItem *parent) : QObject(), QGraphicsPixmapItem(parent), vx(-3), shouldMove(shouldMove) {
-    QPixmap originalPixmap("C:/Users/juana/Downloads/enemigo.png");
+    QPixmap originalPixmap(":enemigos/enem/enemigo");
     QPixmap scaledPixmap = originalPixmap.scaled(400, 400, Qt::KeepAspectRatio);
     setPixmap(scaledPixmap);
 

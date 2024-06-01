@@ -3,7 +3,7 @@
 #include <QGraphicsScene>
 
 Enemigo2::Enemigo2(QGraphicsItem *parent) : Enemigo(false, parent) {
-    QPixmap originalPixmap("C:/Users/juana/Downloads/Vikings/Viking3/Walk/7.png");
+    QPixmap originalPixmap(":enemigos/enem/enemigo2");
     QPixmap scaledPixmap = originalPixmap.scaled(500, 500, Qt::KeepAspectRatio);
     setPixmap(scaledPixmap);
 

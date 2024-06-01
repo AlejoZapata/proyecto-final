@@ -26,7 +26,7 @@ void Game::setLevelBackground(const QString &imagePath) {
 }
 
 void Game::showLoadingScreen() {
-    QPixmap backgroundImage("C:/Users/juana/Downloads/_4d4dba4c-a651-4804-ae37-8014e6c73718 (1).jpg");
+    QPixmap backgroundImage(":levels/back/load");
     QGraphicsPixmapItem *background = new QGraphicsPixmapItem(backgroundImage.scaled(800, 600));
     scene->addItem(background);
 
@@ -101,7 +101,7 @@ void Game::handleAntorchaShoot() {
 
 void Game::startLevel1() {
     currentLevel = 1;
-    setLevelBackground("C:/Users/juana/Downloads/barco2.jpg");
+    setLevelBackground(":levels/back/nivel1");
 
     QGraphicsTextItem *comicText1 = new QGraphicsTextItem("¿Estaremos cometiendo un error al dirigirnos a Lindisfarne?");
     comicText1->setFont(QFont("Arial", 16, QFont::Bold));
@@ -148,7 +148,7 @@ void Game::startLevel1() {
 
 void Game::startLevel2() {
     currentLevel = 2;
-    setLevelBackground("C:/Users/juana/Downloads/zonaverde.png");
+    setLevelBackground(":levels/back/nivel2");
 
     QGraphicsTextItem *comicText1 = new QGraphicsTextItem("Nos están exigiendo pagar impuestos para comerciar.");
     comicText1->setFont(QFont("Arial", 16, QFont::Bold));
@@ -196,7 +196,7 @@ void Game::startLevel3() {
     currentLevel = 3;
     enemiesOutOfBounds = 0;
 
-    setLevelBackground("C:/Users/juana/Downloads/nivel3.jpg");
+    setLevelBackground(":levels/back/nivel3");
 
     QGraphicsTextItem *comicText1 = new QGraphicsTextItem("Todos saben que estamos aquí.");
     comicText1->setFont(QFont("Arial", 16, QFont::Bold));
