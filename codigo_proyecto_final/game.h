@@ -4,6 +4,7 @@
 #include <QGraphicsView>
 #include <QWidget>
 #include <QGraphicsScene>
+#include <QVector>
 #include "personaje.h"
 #include "antorcha.h"
 
@@ -16,13 +17,17 @@ public:
     void startLevel2();
     void startLevel3();
     void setLevelBackground(const QString &imagePath);
+    void showLoadingScreen(const QString &imagePath);
+    void clearLevel();
+    void showWinMessage();
 public slots:
     void handleFlechaShoot();
     void handleAntorchaShoot();
     void spawnEnemigo2();
     void onEnemyOutOfBounds();
     void onEnemyReachedMidpoint();
-
+    void checkWinConditionLevel1();
+    void startNextLevel();
 
 private:
     QGraphicsScene *scene;
@@ -30,11 +35,8 @@ private:
     int currentLevel;
     QPixmap levelBackground;
     int enemiesSpawned;
-
-
-
-
-
+    int enemiesOutOfBounds;
+    QVector<QTimer*> timers;
 };
 
 #endif // GAME_H

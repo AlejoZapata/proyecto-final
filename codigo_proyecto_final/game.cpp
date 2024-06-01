@@ -15,7 +15,7 @@
 #include "casa.h"
 #include <random>
 #include "enemigo2.h"
-
+#include <QApplication>
 
 void Game::setLevelBackground(const QString &imagePath) {
     QPixmap originalImage(imagePath);
@@ -23,7 +23,17 @@ void Game::setLevelBackground(const QString &imagePath) {
     setBackgroundBrush(levelBackground);
 }
 
-Game::Game(QWidget *parent) : QGraphicsView(parent), currentLevel(1), enemiesSpawned(0) {
+void Game::showLoadingScreen(const QString &imagePath) {
+    QGraphicsPixmapItem *loadingScreen = new QGraphicsPixmapItem(QPixmap(imagePath).scaled(800, 600));
+    scene->addItem(loadingScreen);
+    QTimer::singleShot(5000, [this, loadingScreen]() {
+        scene->removeItem(loadingScreen);
+        delete loadingScreen;
+        startLevel1();
+    });
+}
+
+Game::Game(QWidget *parent) : QGraphicsView(parent), currentLevel(1), enemiesSpawned(0), enemiesOutOfBounds(0) {
     scene = new QGraphicsScene(this);
     setScene(scene);
 
@@ -34,7 +44,8 @@ Game::Game(QWidget *parent) : QGraphicsView(parent), currentLevel(1), enemiesSpa
     scene->setSceneRect(0, 0, 800, 600);
     setFocusPolicy(Qt::StrongFocus);
 
-    startLevel2();
+    // Start with loading screen
+    showLoadingScreen("C:/Users/juana/Downloads/_4d4dba4c-a651-4804-ae37-8014e6c73718 (1).jpg");
 }
 
 void Game::keyPressEvent(QKeyEvent *event) {
@@ -80,10 +91,11 @@ void Game::handleAntorchaShoot() {
 void Game::startLevel1() {
     currentLevel = 1;
     setLevelBackground("C:/Users/juana/Downloads/barco2.jpg");
-
     enemiesSpawned = 0;
+    enemiesOutOfBounds = 0;
 
     QTimer *enemyTimer = new QTimer(this);
+    timers.append(enemyTimer);
     connect(enemyTimer, &QTimer::timeout, [this, enemyTimer]() {
         if (enemiesSpawned < 20) {
             Enemigo *enemy = new Enemigo(true);
@@ -92,10 +104,13 @@ void Game::startLevel1() {
             enemiesSpawned++;
         } else {
             enemyTimer->stop();
+            checkWinConditionLevel1();
         }
     });
     enemyTimer->start(1900);
 }
+
+
 void Game::startLevel2() {
     currentLevel = 2;
     setLevelBackground("C:/Users/juana/Downloads/zonaverde.png");
@@ -105,19 +120,19 @@ void Game::startLevel2() {
     std::uniform_int_distribution<> disX(0, int(scene->width() - 100));
     std::uniform_int_distribution<> disY(50, int(scene->height() / 2));
 
-
-
     for (int i = 0; i < 10; ++i) {
         Casa *casa = new Casa();
         casa->setPos(disX(gen), disY(gen));
         scene->addItem(casa);
-
     }
 
-    QTimer::singleShot(30000, [this]() {
-
+    QTimer *singleShotTimer = new QTimer(this);
+    timers.append(singleShotTimer);
+    singleShotTimer->singleShot(30000, [this]() {
+        startLevel3();
     });
 }
+
 void Game::startLevel3() {
     currentLevel = 3;
     setLevelBackground("C:/Users/juana/Downloads/nivel3.jpg");
@@ -127,6 +142,7 @@ void Game::startLevel3() {
     connect(campo, &Campo::enemyReachedMidpoint, this, &Game::onEnemyReachedMidpoint);
 
     QTimer *enemyTimer = new QTimer(this);
+    timers.append(enemyTimer);
     connect(enemyTimer, &QTimer::timeout, [this]() {
         Enemigo *enemy = new Enemigo(false);
         scene->addItem(enemy);
@@ -134,28 +150,84 @@ void Game::startLevel3() {
     enemyTimer->start(2000);
 
     QTimer *enemy2Timer = new QTimer(this);
+    timers.append(enemy2Timer);
     connect(enemy2Timer, &QTimer::timeout, this, &Game::spawnEnemigo2);
     enemy2Timer->start(3000);
 
-    QTimer::singleShot(10000, [this]() {
-
+    QTimer *singleShotTimer = new QTimer(this);
+    timers.append(singleShotTimer);
+    singleShotTimer->singleShot(30000, [this]() {
+        showWinMessage();
     });
 }
-
 void Game::spawnEnemigo2() {
     Enemigo2 *enemy2 = new Enemigo2();
     scene->addItem(enemy2);
 }
 
-
-
 void Game::onEnemyOutOfBounds() {
-
     qDebug() << "¡Enemigo se salió del mapa!";
+    enemiesOutOfBounds++;
+    if (enemiesOutOfBounds >= 1) {
+        qDebug() << "¡Has perdido el nivel 1!";
+        clearLevel();
+        startLevel1();
+    }
 }
 
 void Game::onEnemyReachedMidpoint() {
-
     qDebug() << "¡Enemigo llegó a la mitad del campo!";
+    if (currentLevel == 3) {
+        qDebug() << "¡Has perdido el nivel 3!";
+        clearLevel();
+        startLevel3();
+    }
 }
 
+void Game::checkWinConditionLevel1() {
+    if (enemiesSpawned >= 20 && enemiesOutOfBounds == 0) {
+        qDebug() << "¡Has ganado el nivel 1!";
+        clearLevel();
+        startLevel2();
+    }
+}
+
+void Game::clearLevel() {
+    for (auto item : scene->items()) {
+        if (item != player) {
+            scene->removeItem(item);
+            delete item;
+        }
+    }
+
+    for (QTimer* timer : timers) {
+        timer->stop();
+        delete timer;
+    }
+    timers.clear();
+}
+
+void Game::startNextLevel() {
+    if (currentLevel == 1) {
+        startLevel2();
+    } else if (currentLevel == 2) {
+        startLevel3();
+    }
+}
+
+void Game::showWinMessage() {
+    clearLevel();
+    QGraphicsTextItem *winText = new QGraphicsTextItem("¡Has ganado el juego!");
+
+    QFont font("Times New Roman", 48, QFont::Bold);
+    winText->setFont(font);
+    winText->setDefaultTextColor(Qt::red);
+    winText->setPos(scene->width() / 2 - winText->boundingRect().width() / 2,
+                    scene->height() / 2 - winText->boundingRect().height() / 2);
+
+    scene->addItem(winText);
+
+    QTimer::singleShot(5000, []() {
+        QApplication::quit();
+    });
+}
