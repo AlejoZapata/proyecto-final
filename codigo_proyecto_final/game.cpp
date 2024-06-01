@@ -16,20 +16,34 @@
 #include <random>
 #include "enemigo2.h"
 #include <QApplication>
+#include <QPushButton>
+#include <QGraphicsProxyWidget>
 
 void Game::setLevelBackground(const QString &imagePath) {
     QPixmap originalImage(imagePath);
     levelBackground = originalImage.scaled(800, 600, Qt::KeepAspectRatioByExpanding, Qt::SmoothTransformation);
     setBackgroundBrush(levelBackground);
 }
+void Game::showLoadingScreen() {
 
-void Game::showLoadingScreen(const QString &imagePath) {
-    QGraphicsPixmapItem *loadingScreen = new QGraphicsPixmapItem(QPixmap(imagePath).scaled(800, 600));
-    scene->addItem(loadingScreen);
-    QTimer::singleShot(5000, [this, loadingScreen]() {
-        scene->removeItem(loadingScreen);
-        delete loadingScreen;
-        startLevel1();
+    QPixmap backgroundImage("C:/Users/juana/Downloads/_4d4dba4c-a651-4804-ae37-8014e6c73718 (1).jpg");
+    QGraphicsPixmapItem *background = new QGraphicsPixmapItem(backgroundImage.scaled(800, 600));
+    scene->addItem(background);
+
+
+    QPushButton *startButton = new QPushButton("Click para empezar");
+    startButton->setFixedSize(300, 60);
+    startButton->setFont(QFont("Times New Roman", 20, QFont::Bold));
+    QGraphicsProxyWidget *proxy = scene->addWidget(startButton);
+    proxy->setPos(scene->width() / 2 - startButton->width() / 2, scene->height() / 2 + 150);
+
+
+    connect(startButton, &QPushButton::clicked, this, &Game::startLevel1);
+    connect(startButton, &QPushButton::clicked, [=]() {
+        scene->removeItem(background);
+        delete background;
+        proxy->setWidget(nullptr);
+        delete startButton;
     });
 }
 
@@ -44,8 +58,8 @@ Game::Game(QWidget *parent) : QGraphicsView(parent), currentLevel(1), enemiesSpa
     scene->setSceneRect(0, 0, 800, 600);
     setFocusPolicy(Qt::StrongFocus);
 
-    // Start with loading screen
-    showLoadingScreen("C:/Users/juana/Downloads/_4d4dba4c-a651-4804-ae37-8014e6c73718 (1).jpg");
+
+    showLoadingScreen();
 }
 
 void Game::keyPressEvent(QKeyEvent *event) {
@@ -156,7 +170,7 @@ void Game::startLevel3() {
 
     QTimer *singleShotTimer = new QTimer(this);
     timers.append(singleShotTimer);
-    singleShotTimer->singleShot(30000, [this]() {
+    singleShotTimer->singleShot(10000, [this]() {
         showWinMessage();
     });
 }

@@ -17,7 +17,7 @@ public:
     void startLevel2();
     void startLevel3();
     void setLevelBackground(const QString &imagePath);
-    void showLoadingScreen(const QString &imagePath);
+    void showLoadingScreen();
     void clearLevel();
     void showWinMessage();
 public slots:
