@@ -14,7 +14,7 @@ Flecha::Flecha(bool directionRight, QGraphicsItem *parent) : QObject(), QGraphic
         pixmap.load(":proyectiles/pr/hachaiz");
     }
 
-    QPixmap scaledPixmap = pixmap.scaled(140, 140, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+    QPixmap scaledPixmap = pixmap.scaled(100, 100, Qt::KeepAspectRatio, Qt::SmoothTransformation);
     setPixmap(scaledPixmap);
 
     QTimer *timer = new QTimer();

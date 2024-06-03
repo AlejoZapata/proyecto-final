@@ -4,9 +4,9 @@
 
 Enemigo2::Enemigo2(QGraphicsItem *parent) : Enemigo(false, parent) {
     QPixmap originalPixmap(":enemigos/enem/enemigo2");
-    QPixmap scaledPixmap = originalPixmap.scaled(500, 500, Qt::KeepAspectRatio);
+    QPixmap scaledPixmap = originalPixmap.scaled(250, 250, Qt::KeepAspectRatio);
     setPixmap(scaledPixmap);
 
 
-    setPos(-150, 100);
+    setPos(-150, 300);
 }

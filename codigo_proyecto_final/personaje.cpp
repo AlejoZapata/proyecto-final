@@ -8,14 +8,25 @@
 #include <QTimer>
 
 Personaje::Personaje(QGraphicsItem *parent) : QObject(), QGraphicsPixmapItem(parent), shootDirectionRight(true), canShoot(true), isAnimating(false), isShootingAnimating(false), spriteIndex(0), shootingSpriteIndex(0) {
+
+
+    int newWidth = 300;
+    int newHeight = 300;
+
+
     for (int i = 0; i <= 10; i++) {
         QString imagePath = QString(":personaje/Run/%0").arg(i);
-        sprites.append(QPixmap(imagePath));
+        QPixmap pixmap(imagePath);
+        QPixmap scaledPixmap = pixmap.scaled(newWidth, newHeight, Qt::KeepAspectRatio);
+        sprites.append(scaledPixmap);
     }
+
 
     for (int i = 0; i <= 10; i++) {
         QString imagePath = QString(":personajeAt/Attack1H/%0").arg(i);
-        shootingSprites.append(QPixmap(imagePath));
+        QPixmap pixmap(imagePath);
+        QPixmap scaledPixmap = pixmap.scaled(newWidth, newHeight, Qt::KeepAspectRatio);
+        shootingSprites.append(scaledPixmap);
     }
 
     setPixmap(sprites[0]);

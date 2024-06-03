@@ -5,11 +5,6 @@
 #include "campo.h"
 #include <QGraphicsRectItem>
 #include <QKeyEvent>
-#include <QTimer>
-#include <QGraphicsRectItem>
-#include <QKeyEvent>
-#include <QTimer>
-#include <QGraphicsRectItem>
 #include <QKeyEvent>
 #include <QTimer>
 #include "casa.h"
@@ -19,6 +14,7 @@
 #include <QPushButton>
 #include <QGraphicsProxyWidget>
 #include <QMessageBox>
+
 void Game::setLevelBackground(const QString &imagePath) {
     QPixmap originalImage(imagePath);
     levelBackground = originalImage.scaled(800, 600, Qt::KeepAspectRatioByExpanding, Qt::SmoothTransformation);
@@ -51,7 +47,7 @@ Game::Game(QWidget *parent) : QGraphicsView(parent), currentLevel(1), enemiesSpa
 
     player = new Personaje();
     scene->addItem(player);
-    player->setPos(-150, 100);
+    player->setPos(-100, 250);
     setFixedSize(800, 600);
     scene->setSceneRect(0, 0, 800, 600);
     setFocusPolicy(Qt::StrongFocus);
@@ -185,7 +181,7 @@ void Game::startLevel2() {
 
             QTimer *singleShotTimer = new QTimer(this);
             timers.append(singleShotTimer);
-            singleShotTimer->singleShot(30000, [this]() {
+            singleShotTimer->singleShot(25000, [this]() {
                 startLevel3();
             });
         });
@@ -231,16 +227,16 @@ void Game::startLevel3() {
                 scene->addItem(enemy);
                 connect(enemy, &Enemigo::enemyOutOfBounds, this, &Game::onEnemyOutOfBounds);
             });
-            enemyTimer->start(2000);
+            enemyTimer->start(3000);
 
             QTimer *enemy2Timer = new QTimer(this);
             timers.append(enemy2Timer);
             connect(enemy2Timer, &QTimer::timeout, this, &Game::spawnEnemigo2);
-            enemy2Timer->start(3000);
+            enemy2Timer->start(5000);
 
             QTimer *singleShotTimer = new QTimer(this);
             timers.append(singleShotTimer);
-            singleShotTimer->singleShot(10000, [this]() {
+            singleShotTimer->singleShot(30000, [this]() {
                 showWinMessage();
             });
         });

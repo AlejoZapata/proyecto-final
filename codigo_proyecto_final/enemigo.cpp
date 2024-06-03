@@ -5,10 +5,10 @@
 
 Enemigo::Enemigo(bool shouldMove, QGraphicsItem *parent) : QObject(), QGraphicsPixmapItem(parent), vx(-3), shouldMove(shouldMove) {
     QPixmap originalPixmap(":enemigos/enem/enemigo");
-    QPixmap scaledPixmap = originalPixmap.scaled(400, 400, Qt::KeepAspectRatio);
+    QPixmap scaledPixmap = originalPixmap.scaled(200, 200, Qt::KeepAspectRatio);
     setPixmap(scaledPixmap);
 
-    setPos(500, 150);
+    setPos(500, 300);
 
     QTimer *timer = new QTimer();
     connect(timer, SIGNAL(timeout()), this, SLOT(move()));
@@ -29,7 +29,7 @@ void Enemigo::move() {
     }
 
 
-    if (pos().y() > 150 || pos().x() < -pixmap().width()) {
+    if (pos().y() > 600 || pos().x() < -pixmap().width()) {
         emit enemyOutOfBounds();
         scene()->removeItem(this);
         delete this;

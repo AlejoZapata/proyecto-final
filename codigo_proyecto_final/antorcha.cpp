@@ -6,7 +6,7 @@
 #include "game.h"
 
 Antorcha::Antorcha(QGraphicsItem *parent) : QObject(), QGraphicsPixmapItem(parent), vx(60), vy(0), t(0), g(9.8) {
-    setPixmap(QPixmap(":proyectiles/pr/antorchaof").scaled(100, 100));
+    setPixmap(QPixmap(":proyectiles/pr/antorchaof").scaled(70, 70));
 
     QTimer *timer = new QTimer();
     connect(timer, SIGNAL(timeout()), this, SLOT(move()));
