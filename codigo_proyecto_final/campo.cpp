@@ -6,6 +6,9 @@
 #include "enemigo.h"
 #include "enemigo2.h"
 #include "personaje.h"
+#include <string>
+
+using namespace std;
 
 Campo::Campo(Personaje *personaje, QGraphicsItem *parent)
     : QObject(), QGraphicsEllipseItem(parent), personaje(personaje) {
@@ -18,6 +21,9 @@ Campo::Campo(Personaje *personaje, QGraphicsItem *parent)
     QTimer *timer = new QTimer(this);
     connect(timer, SIGNAL(timeout()), this, SLOT(affectEnemies()));
     timer->start(100);
+
+    logFile.open("simulacion_campo.log", ios::out | ios::app);
+    logEvent("Campo creado alrededor del personaje.");
 }
 
 void Campo::affectEnemies() {
@@ -26,6 +32,7 @@ void Campo::affectEnemies() {
         if (typeid(*item) == typeid(Enemigo) || typeid(*item) == typeid(Enemigo2)) {
             if (personaje->collidesWithItem(item)) {
                 emit enemyReachedMidpoint();
+                logEvent("Enemigo alcanzó el punto medio.");
             }
 
             QPointF enemyPos = item->pos();
@@ -38,6 +45,13 @@ void Campo::affectEnemies() {
             QPointF displacement = direction.toPointF() * attractionSpeed;
 
             item->setPos(enemyPos + displacement);
+            logEvent("Moviendo enemigo hacia el personaje a posición: (" + to_string(enemyPos.x()) + ", " + to_string(enemyPos.y()) + ")");
         }
+    }
+}
+
+void Campo::logEvent(const string &message) {
+    if (logFile.is_open()) {
+        logFile << message << endl;
     }
 }

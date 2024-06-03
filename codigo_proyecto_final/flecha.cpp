@@ -5,8 +5,13 @@
 #include "enemigo.h"
 #include "enemigo2.h"
 #include <cmath>
+#include <fstream>
+#include <string>
 
-Flecha::Flecha(bool directionRight, QGraphicsItem *parent) : QObject(), QGraphicsPixmapItem(parent), directionRight(directionRight) {
+using namespace std;
+
+Flecha::Flecha(bool directionRight, QGraphicsItem *parent)
+    : QObject(), QGraphicsPixmapItem(parent), directionRight(directionRight), angle(0.0) {
     QPixmap pixmap;
     if (directionRight) {
         pixmap.load(":proyectiles/pr/hachaderecha");
@@ -20,36 +25,47 @@ Flecha::Flecha(bool directionRight, QGraphicsItem *parent) : QObject(), QGraphic
     QTimer *timer = new QTimer();
     connect(timer, SIGNAL(timeout()), this, SLOT(move()));
     timer->start(50);
+
+    logFile.open("simulacion_flecha.log", ios::out | ios::app);
+    logEvent("Flecha creada en dirección " + string(directionRight ? "derecha" : "izquierda"));
 }
 
 void Flecha::move() {
-    qreal angle = 0.0;
     if (directionRight) {
         setPos(x() + 10, y());
-        angle = 45.0;
+        angle += 45.0;
     } else {
         setPos(x() - 10, y());
-        angle = -45.0;
+        angle -= 45.0;
     }
 
     if (pos().x() > scene()->width() || pos().x() < 0) {
+        logEvent("Flecha salió de los límites de la escena.");
         scene()->removeItem(this);
         delete this;
         return;
     }
 
-
     setTransformOriginPoint(pixmap().width() / 2, pixmap().height() / 2);
     setRotation(rotation() + angle);
+
+    logEvent("Flecha movida a posición: (" + to_string(pos().x()) + ", " + to_string(pos().y()) + ") con ángulo: " + to_string(angle));
 
     QList<QGraphicsItem *> collidingItems = this->collidingItems();
     for (QGraphicsItem *item : collidingItems) {
         if (typeid(*item) == typeid(Enemigo) || typeid(*item) == typeid(Enemigo2)) {
+            logEvent("Flecha colisionó con enemigo en posición: (" + to_string(item->pos().x()) + ", " + to_string(item->pos().y()) + ")");
             scene()->removeItem(item);
             scene()->removeItem(this);
             delete item;
             delete this;
             return;
         }
+    }
+}
+
+void Flecha::logEvent(const string &message) {
+    if (logFile.is_open()) {
+        logFile << message << endl;
     }
 }
