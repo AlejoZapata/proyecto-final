@@ -3,8 +3,8 @@
 #include <QGraphicsScene>
 
 Enemigo2::Enemigo2(QGraphicsItem *parent) : Enemigo(false, parent) {
-    int newWidth = 250;
-    int newHeight = 250;
+    int newWidth = 300;
+    int newHeight = 300;
 
     sprites.clear();
     for (int i = 0; i <= 9; i++) {
@@ -16,5 +16,5 @@ Enemigo2::Enemigo2(QGraphicsItem *parent) : Enemigo(false, parent) {
 
     setPixmap(sprites.at(spriteIndex));
 
-    setPos(-150, 300);
+    setPos(-100, 250);
 }

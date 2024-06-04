@@ -28,6 +28,7 @@ public slots:
     void onEnemyOutOfBounds();
     void onEnemyReachedMidpoint();
     void checkWinConditionLevel1();
+    void checkWinConditionLevel2();
 
 
 private:

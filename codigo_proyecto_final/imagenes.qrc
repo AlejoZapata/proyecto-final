@@ -25,9 +25,9 @@
     </qresource>
     <qresource prefix="/levels">
         <file>back/load.jpg</file>
-        <file>back/nivel1.jpg</file>
         <file>back/nivel2.png</file>
-        <file>back/nivel3.jpg</file>
+        <file>back/barco oficial.png</file>
+        <file>back/nivel3estesi.png</file>
     </qresource>
     <qresource prefix="/proyectiles">
         <file>pr/antorchaof.png</file>
@@ -70,5 +70,10 @@
         <file>enem/Run/7.png</file>
         <file>enem/Run/8.png</file>
         <file>enem/Run/9.png</file>
+    </qresource>
+    <qresource prefix="/detalles">
+        <file>detalles/botonof.jpg</file>
+        <file>detalles/message.jpg</file>
+        <file>detalles/victory.jpg</file>
     </qresource>
 </RCC>

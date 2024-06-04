@@ -15,7 +15,7 @@ Enemigo::Enemigo(bool shouldMove, QGraphicsItem *parent) : QObject(), QGraphicsP
 
     setPixmap(sprites.at(spriteIndex));
 
-    setPos(500, 300);
+    setPos(600, 300);
 
     QTimer *timer = new QTimer(this);
     connect(timer, &QTimer::timeout, this, &Enemigo::move);
