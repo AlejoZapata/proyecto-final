@@ -30,6 +30,13 @@ void Antorcha::setInitialVelocityWithAngle(float velIn, float theta) {
     logEvent("Velocidad inicial con ángulo establecida: velocidad: " + to_string(velIn) + ", ángulo: " + to_string(theta));
 }
 
+void Antorcha::mousePressEvent(QGraphicsSceneMouseEvent *event) {
+    Q_UNUSED(event);
+
+    setInitialVelocity(80, -30);
+    logEvent("Antorcha lanzada al hacer clic con nueva velocidad vx: " + to_string(vx) + ", vy: " + to_string(vy));
+}
+
 void Antorcha::move() {
     const float dt = 0.1;
     float posX = x() + (vx * dt);
