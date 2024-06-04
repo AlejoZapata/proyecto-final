@@ -127,7 +127,7 @@ void Game::startLevel1() {
             QTimer *enemyTimer = new QTimer(this);
             timers.append(enemyTimer);
             connect(enemyTimer, &QTimer::timeout, [this, enemyTimer]() {
-                if (enemiesSpawned < 20) {
+                if (enemiesSpawned < 5) {
                     Enemigo *enemy = new Enemigo(true);
                     scene->addItem(enemy);
                     connect(enemy, &Enemigo::enemyOutOfBounds, this, &Game::onEnemyOutOfBounds);
@@ -181,7 +181,7 @@ void Game::startLevel2() {
 
             QTimer *singleShotTimer = new QTimer(this);
             timers.append(singleShotTimer);
-            singleShotTimer->singleShot(25000, [this]() {
+            singleShotTimer->singleShot(20000, [this]() {
                 startLevel3();
             });
         });
@@ -236,7 +236,7 @@ void Game::startLevel3() {
 
             QTimer *singleShotTimer = new QTimer(this);
             timers.append(singleShotTimer);
-            singleShotTimer->singleShot(30000, [this]() {
+            singleShotTimer->singleShot(20000, [this]() {
                 showWinMessage();
             });
         });
@@ -266,7 +266,7 @@ void Game::onEnemyReachedMidpoint() {
     QTimer::singleShot(200, this, &Game::showGameOverMessage);
 }
 void Game::checkWinConditionLevel1() {
-    if (enemiesSpawned >= 20 && enemiesOutOfBounds == 0) {
+    if (enemiesSpawned >= 5 && enemiesOutOfBounds == 0) {
         qDebug() << "¡Has ganado el nivel 1!";
         clearLevel();
         startLevel2();

@@ -14,7 +14,7 @@ Personaje::Personaje(QGraphicsItem *parent) : QObject(), QGraphicsPixmapItem(par
     int newHeight = 300;
 
 
-    for (int i = 0; i <= 10; i++) {
+    for (int i = 0; i <= 9; i++) {
         QString imagePath = QString(":personaje/Run/%0").arg(i);
         QPixmap pixmap(imagePath);
         QPixmap scaledPixmap = pixmap.scaled(newWidth, newHeight, Qt::KeepAspectRatio);
@@ -22,7 +22,7 @@ Personaje::Personaje(QGraphicsItem *parent) : QObject(), QGraphicsPixmapItem(par
     }
 
 
-    for (int i = 0; i <= 10; i++) {
+    for (int i = 0; i <= 9; i++) {
         QString imagePath = QString(":personajeAt/Attack1H/%0").arg(i);
         QPixmap pixmap(imagePath);
         QPixmap scaledPixmap = pixmap.scaled(newWidth, newHeight, Qt::KeepAspectRatio);

@@ -9,13 +9,16 @@ class Enemigo : public QObject, public QGraphicsPixmapItem {
     Q_OBJECT
 public:
     Enemigo(bool shouldMove, QGraphicsItem *parent = nullptr);
+    void animate();
 signals:
     void enemyOutOfBounds();
 public slots:
     void move();
-private:
+protected:
+    QList<QPixmap> sprites;
     float vx;
     bool shouldMove;
+    int spriteIndex;
 };
 
 #endif // ENEMIGO_H

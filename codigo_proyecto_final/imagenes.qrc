@@ -34,11 +34,41 @@
         <file>pr/hachaderecha.png</file>
         <file>pr/hachaiz.png</file>
     </qresource>
-    <qresource prefix="/enemigos">
-        <file>enem/enemigo.png</file>
-        <file>enem/enemigo2.png</file>
+    <qresource prefix="/enemigo1">
+        <file>enem/2/0.png</file>
+        <file>enem/2/1.png</file>
+        <file>enem/2/2.png</file>
+        <file>enem/2/3.png</file>
+        <file>enem/2/4.png</file>
+        <file>enem/2/5.png</file>
+        <file>enem/2/6.png</file>
+        <file>enem/2/7.png</file>
+        <file>enem/2/8.png</file>
+        <file>enem/2/9.png</file>
+        <file>enem/2/10.png</file>
+        <file>enem/2/11.png</file>
+        <file>enem/2/12.png</file>
+        <file>enem/2/13.png</file>
+        <file>enem/2/14.png</file>
+        <file>enem/2/15.png</file>
+        <file>enem/2/16.png</file>
+        <file>enem/2/17.png</file>
+        <file>enem/2/18.png</file>
+        <file>enem/2/19.png</file>
     </qresource>
     <qresource prefix="/casa">
         <file>casa/casa1.png</file>
+    </qresource>
+    <qresource prefix="/enemigo2">
+        <file>enem/Run/0.png</file>
+        <file>enem/Run/1.png</file>
+        <file>enem/Run/2.png</file>
+        <file>enem/Run/3.png</file>
+        <file>enem/Run/4.png</file>
+        <file>enem/Run/5.png</file>
+        <file>enem/Run/6.png</file>
+        <file>enem/Run/7.png</file>
+        <file>enem/Run/8.png</file>
+        <file>enem/Run/9.png</file>
     </qresource>
 </RCC>

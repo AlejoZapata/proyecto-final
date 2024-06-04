@@ -3,6 +3,7 @@
 
 #include "enemigo.h"
 
+
 class Enemigo2 : public Enemigo {
     Q_OBJECT
 public:

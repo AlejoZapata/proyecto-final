@@ -3,10 +3,18 @@
 #include <QGraphicsScene>
 
 Enemigo2::Enemigo2(QGraphicsItem *parent) : Enemigo(false, parent) {
-    QPixmap originalPixmap(":enemigos/enem/enemigo2");
-    QPixmap scaledPixmap = originalPixmap.scaled(250, 250, Qt::KeepAspectRatio);
-    setPixmap(scaledPixmap);
+    int newWidth = 250;
+    int newHeight = 250;
 
+    sprites.clear();
+    for (int i = 0; i <= 9; i++) {
+        QString imagePath = QString(":enemigo2/enem/Run/%0.png").arg(i);
+        QPixmap pixmap(imagePath);
+        QPixmap scaledPixmap = pixmap.scaled(newWidth, newHeight, Qt::KeepAspectRatio);
+        sprites.append(scaledPixmap);
+    }
+
+    setPixmap(sprites.at(spriteIndex));
 
     setPos(-150, 300);
 }
