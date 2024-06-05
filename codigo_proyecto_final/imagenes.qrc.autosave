@@ -1,0 +1,42 @@
+<RCC>
+    <qresource prefix="/personaje">
+        <file>Run/0.png</file>
+        <file>Run/1.png</file>
+        <file>Run/2.png</file>
+        <file>Run/3.png</file>
+        <file>Run/4.png</file>
+        <file>Run/5.png</file>
+        <file>Run/6.png</file>
+        <file>Run/7.png</file>
+        <file>Run/8.png</file>
+        <file>Run/9.png</file>
+    </qresource>
+    <qresource prefix="/personajeAt">
+        <file>Attack1H/0.png</file>
+        <file>Attack1H/1.png</file>
+        <file>Attack1H/2.png</file>
+        <file>Attack1H/3.png</file>
+        <file>Attack1H/4.png</file>
+        <file>Attack1H/5.png</file>
+        <file>Attack1H/6.png</file>
+        <file>Attack1H/7.png</file>
+        <file>Attack1H/8.png</file>
+        <file>Attack1H/9.png</file>
+    </qresource>
+    <qresource prefix="/levels">
+        <file>back/load.jpg</file>
+        <file>back/nivel1.jpg</file>
+        <file>back/nivel2.png</file>
+        <file>back/nivel3.jpg</file>
+    </qresource>
+    <qresource prefix="/proyectiles">
+        <file>pr/antorchaof.png</file>
+        <file>pr/hachaderecha.png</file>
+        <file>pr/hachaiz.png</file>
+    </qresource>
+    <qresource prefix="/enemigos">
+        <file>enem/enemigo.png</file>
+        <file>enem/enemigo2.png</file>
+    </qresource>
+    <qresource prefix="/casa"/>
+</RCC>
