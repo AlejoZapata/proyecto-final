@@ -14,7 +14,6 @@ public:
     void setInitialVelocity(float vx, float vy);
     void setInitialVelocityWithAngle(float velIn, float theta);
     void logEvent(const string &message);
-protected:
     void mousePressEvent(QGraphicsSceneMouseEvent *event) override;
 public slots:
     void move();
